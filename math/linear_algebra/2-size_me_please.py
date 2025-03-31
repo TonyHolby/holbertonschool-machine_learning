@@ -5,7 +5,14 @@ import numpy as np
 
 def matrix_shape(matrix):
     """
-        matrix : the matrix of integers.
+        Returns the shape of a matrix as a list of integers.
+
+        matrix: The input matrix (list of lists).
     """
-    shape_of_matrix = np.array(matrix)
-    return shape_of_matrix.shape
+    shape = []
+
+    while isinstance(matrix, list):
+        shape.append(len(matrix))
+        matrix = matrix[0] if matrix else []
+
+    return shape
