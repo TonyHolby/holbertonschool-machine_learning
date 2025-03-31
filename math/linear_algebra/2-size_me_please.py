@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import numpy as np
 """ A function to calculate the shape of a matrix """
 
 
