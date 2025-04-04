@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """ A function that performs matrix multiplication """
 
+import numpy as np
+
 
 def np_matmul(mat1, mat2):
     """
@@ -13,6 +15,6 @@ def np_matmul(mat1, mat2):
         Returns:
             A new numpy array of the multiplication of mat1 and mat2.
     """
-    new_numpy_array = mat1.dot(mat2)
+    new_numpy_array = np.matmul(mat1, mat2)
 
     return new_numpy_array
