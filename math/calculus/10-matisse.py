@@ -18,8 +18,8 @@ def poly_derivative(poly):
     if not isinstance(poly, list):
         return None
 
-    if poly == [0]:
-        return 0
+    if poly == []:
+        return None
 
     n = 0
     derivative_coef = 0
@@ -29,8 +29,13 @@ def poly_derivative(poly):
         if not isinstance(number, int):
             return None
 
+        if poly == 0:
+            return [0]
+
         derivative_coef = number * n
-        new_list.append(derivative_coef)
+
+        if n > 0:
+            new_list.append(derivative_coef)
         n += 1
 
     return new_list
