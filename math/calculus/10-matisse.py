@@ -15,27 +15,28 @@ def poly_derivative(poly):
             A new list of coefficients representing
             the derivative of the polynomial, else.
     """
-    if not isinstance(poly, list):
+    if not poly:
         return None
 
-    if poly == []:
-        return None
+    if poly == [0]:
+        return [0]
 
     n = 0
     derivative_coef = 0
     new_list = []
 
-    for number in poly:
-        if not isinstance(number, int):
+    for n, number in enumerate(poly):
+        if not isinstance(number, (int, float)):
             return None
-
-        if poly == [0]:
-            return [0]
 
         derivative_coef = number * n
 
         if n > 0:
             new_list.append(derivative_coef)
+
         n += 1
+
+    if new_list == []:
+        return [0]
 
     return new_list
