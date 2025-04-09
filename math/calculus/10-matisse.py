@@ -25,7 +25,7 @@ def poly_derivative(poly):
     derivative_coef = 0
     new_list = []
 
-    for n, number in enumerate(poly):
+    for number in poly:
         if not isinstance(number, (int, float)):
             return None
 
