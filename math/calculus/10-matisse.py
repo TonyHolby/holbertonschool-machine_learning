@@ -19,7 +19,7 @@ def poly_derivative(poly):
         return None
 
     if poly == []:
-        return [0]
+        return None
 
     n = 0
     derivative_coef = 0
@@ -29,7 +29,7 @@ def poly_derivative(poly):
         if not isinstance(number, int):
             return None
 
-        if poly == 0:
+        if poly == [0]:
             return [0]
 
         derivative_coef = number * n
