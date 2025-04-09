@@ -13,10 +13,12 @@ def summation_i_squared(n):
             None, if n is not an integer or < 0.
             The integer value of the sum, else.
     """
-    if not isinstance(n, int) or n < 1:
+    if not isinstance(n, int):
         return None
 
-    if n == 1:
+    if n < 1:
+        return None
+    elif n == 1:
         return 1
 
     sigma = n**2 + summation_i_squared(n - 1)
