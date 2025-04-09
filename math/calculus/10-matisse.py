@@ -19,7 +19,7 @@ def poly_derivative(poly):
         return None
 
     if poly == []:
-        return None
+        return [0]
 
     n = 0
     derivative_coef = 0
