@@ -21,6 +21,6 @@ def summation_i_squared(n):
     elif n == 1:
         return 1
 
-    sigma = n**2 + summation_i_squared(n - 1)
+    sigma = (n * (n + 1) * (2 * n + 1)) // 6
 
     return sigma
