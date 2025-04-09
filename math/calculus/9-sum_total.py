@@ -13,7 +13,7 @@ def summation_i_squared(n):
             None, if n is not an integer or < 0.
             The integer value of the sum, else.
     """
-    if type(n) != int or n < 1:
+    if not isinstance(n, int) or n < 1:
         return None
 
     if n == 1:
