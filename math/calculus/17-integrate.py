@@ -24,13 +24,13 @@ def poly_integral(poly, C=0):
     if poly == [0]:
         return [C]
 
-    n = 1
+    n = 0
     integral_coef = 0
     new_list = [C]
     number = 1
 
     for number in range(len(poly)):
-        integral_coef = poly[number] * (1 / n)
+        integral_coef = poly[number] * (1 / (n + 1))
         if integral_coef == int(integral_coef):
             new_list.append(int(integral_coef))
         elif integral_coef % 10 == 0:
@@ -38,5 +38,8 @@ def poly_integral(poly, C=0):
         else:
             new_list.append(integral_coef)
         n += 1
+
+    while len(new_list) > 1 and new_list[-1] == 0:
+        new_list.pop()
 
     return new_list
