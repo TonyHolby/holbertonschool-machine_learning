@@ -22,14 +22,15 @@ def poly_integral(poly, C=0):
         return None
 
     if poly == [0]:
-        return[0]
+        return [C]
 
     n = 1
     integral_coef = 0
-    new_list = [0]
+    new_list = [C]
+    number = 1
 
-    for number in poly:
-        integral_coef = number * (1 / n)
+    for number in range(len(poly)):
+        integral_coef = poly[number] * (1 / n)
         if integral_coef == int(integral_coef):
             new_list.append(int(integral_coef))
         else:
