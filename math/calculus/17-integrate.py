@@ -33,6 +33,8 @@ def poly_integral(poly, C=0):
         integral_coef = poly[number] * (1 / n)
         if integral_coef == int(integral_coef):
             new_list.append(int(integral_coef))
+        elif integral_coef % 10 == 0:
+            new_list.append(round(integral_coef))
         else:
             new_list.append(integral_coef)
         n += 1
