@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-""" A function that creates a scatter plot of sampled elevations on a mountain """
+""" A function that creates a scatter plot of
+sampled elevations on a mountain """
 import numpy as np
 import matplotlib.pyplot as plt
 
