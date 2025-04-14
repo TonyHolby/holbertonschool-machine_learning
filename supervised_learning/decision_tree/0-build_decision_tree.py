@@ -12,7 +12,18 @@ import numpy as np
 class Node:
     def __init__(self, feature=None, threshold=None, left_child=None,
                  right_child=None, is_root=False, depth=0):
-        """ Initializes a node """
+        """
+            Initializes a node.
+
+            Args:
+                feature (int): The index of the feature to split on.
+                threshold (float): The threshold value to compare the
+                feature against.
+                left_child (Node or Leaf): Child node for values < threshold.
+                right_child (Node or Leaf): Child node for values >= threshold.
+                is_root (bool): True if this node is the root of the tree.
+                depth (int): Depth of the node.
+        """
         self.feature = feature
         self.threshold = threshold
         self.left_child = left_child
