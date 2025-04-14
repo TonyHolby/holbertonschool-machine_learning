@@ -6,10 +6,9 @@
 import numpy as np
 
 
-""" A class named Node that updates the class Node """
-
-
 class Node:
+    """ A class named Node that updates the class Node """
+
     def __init__(self, feature=None, threshold=None, left_child=None,
                  right_child=None, is_root=False, depth=0):
         """
@@ -51,10 +50,9 @@ class Node:
         return max(left_depth, right_depth)
 
 
-""" A class named Leaf that returns the depth of the leaf """
-
-
 class Leaf(Node):
+    """ A class named Leaf that returns the depth of the leaf """
+
     def __init__(self, value, depth=None):
         """ Initializes a leaf """
         super().__init__()
@@ -67,13 +65,11 @@ class Leaf(Node):
         return self.depth
 
 
-"""
-    A class named Decision_tree that returns
-    the max depth of the decision tree
-"""
-
-
 class Decision_Tree():
+    """
+        A class named Decision_tree that returns
+        the max depth of the decision tree
+    """
     def __init__(self, max_depth=10, min_pop=1, seed=0,
                  split_criterion="random", root=None):
         """ Initializes a tree """
