@@ -74,7 +74,17 @@ class Node:
         return number_of_nodes
 
     def __str__(self):
+        """ Displays the tree as a string """
         def left_child_add_prefix(self, text):
+            """
+                Build the left children of the tree.
+
+                Args:
+                    text (str): The description of the left children.
+
+                Returns:
+                    A new text to display the left part of the tree.
+            """
             lines = text.split("\n")
             new_text = "    +--" + lines[0] + "\n"
             for x in lines[1:]:
@@ -82,6 +92,15 @@ class Node:
             return (new_text)
 
         def right_child_add_prefix(self, text):
+            """
+                Build the right children of the tree.
+
+                Args:
+                    text (str): The description of the right children.
+
+                Returns:
+                    A new text to display the right part of the tree.
+            """
             lines = text.split("\n")
             new_text = "    +--" + lines[0] + "\n"
             for x in lines[1:]:
@@ -92,8 +111,8 @@ class Node:
             build_tree = \
                 f"root [feature={self.feature}, threshold={self.threshold}]\n"
         else:
-            build_tree = \
-                f"node [feature={self.feature}, threshold={self.threshold}]\n"
+            build_tree = f"-> node [feature=\
+{self.feature}, threshold={self.threshold}]\n"
 
         if self.left_child:
             build_tree += left_child_add_prefix(self, str(self.left_child))
@@ -128,6 +147,7 @@ class Leaf(Node):
         return 1
 
     def __str__(self):
+        """ Build the leaves description for the tree display """
         return (f"-> leaf [value={self.value}]")
 
 
@@ -160,4 +180,5 @@ class Decision_Tree():
         return self.root.count_nodes_below(only_leaves=only_leaves)
 
     def __str__(self):
+        """ Build the root description for the tree display """
         return self.root.__str__()
