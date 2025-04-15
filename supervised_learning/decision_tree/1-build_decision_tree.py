@@ -55,7 +55,7 @@ class Node:
             Counts the number of nodes.
 
             Args:
-                only_leaves (bool): Counts only if it is a leaf or nodes.
+                only_leaves (bool): Counts only if not leaf nodes.
 
             Returns:
                 The number of nodes.
