@@ -79,7 +79,7 @@ class Node:
             """
                 Build the left children of the tree.
 
-                Args:
+                Arg:
                     text (str): The description of the left children.
 
                 Returns:
@@ -95,7 +95,7 @@ class Node:
             """
                 Build the right children of the tree.
 
-                Args:
+                Arg:
                     text (str): The description of the right children.
 
                 Returns:
@@ -104,7 +104,7 @@ class Node:
             lines = text.split("\n")
             new_text = "    +--" + lines[0] + "\n"
             for x in lines[1:]:
-                new_text += ("    |  " + x) + "\n"
+                new_text += ("       " + x) + "\n"
             return (new_text)
 
         if self.is_root:
