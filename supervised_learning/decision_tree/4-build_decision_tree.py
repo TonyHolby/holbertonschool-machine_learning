@@ -153,7 +153,7 @@ class Node:
                 feature = self.feature
                 threshold = self.threshold
 
-                if child == self.left_child:
+                if child == self.right_child:
                     previous_upper = child.upper.get(feature, np.inf)
                     child.upper[feature] = min(previous_upper, threshold)
                 else:
