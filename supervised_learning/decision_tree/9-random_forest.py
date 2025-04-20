@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-import numpy as np
-Decision_Tree = __import__('8-build_decision_tree').Decision_Tree
 """
     A script that creates a new class Random_Forest.
 """
+import numpy as np
+Decision_Tree = __import__('8-build_decision_tree').Decision_Tree
 
 
 class Random_Forest():
