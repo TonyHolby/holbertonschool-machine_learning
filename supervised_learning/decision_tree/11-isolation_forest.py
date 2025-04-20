@@ -7,6 +7,10 @@ Isolation_Random_Tree = __import__('10-isolation_tree').Isolation_Random_Tree
 
 
 class Isolation_Random_Forest():
+    """
+        A class named Isolation_Random_Tree that defines an
+        Isolation Random Forest
+    """
     def __init__(self, n_trees=100, max_depth=10, min_pop=1, seed=0):
         """
             Initializes an Isolation Random Forest.
