@@ -42,17 +42,17 @@ class Node:
     def max_depth_below(self):
         """ Determines the depth of the node """
         if self.is_leaf:
-            return 0
+            return self.depth
 
         if self.left_child:
             left_depth = self.left_child.max_depth_below()
         else:
-            left_depth = 0
+            left_depth = self.depth
 
         if self.right_child:
             right_depth = self.right_child.max_depth_below()
         else:
-            right_depth = 0
+            right_depth = self.depth
 
         return max(left_depth, right_depth)
 
@@ -350,7 +350,8 @@ class Decision_Tree():
     - Depth                     : {self.depth()}
     - Number of nodes           : {self.count_nodes()}
     - Number of leaves          : {self.count_nodes(only_leaves = True)}
-    - Accuracy on training data : {self.accuracy(self.explanatory, self.target)}""")
+    - Accuracy on training data : {self.accuracy(self.explanatory,
+                                                 self.target)}""")
 
     def np_extrema(self, arr):
         """
@@ -402,7 +403,7 @@ class Decision_Tree():
 
         is_left_leaf = (
             np.sum(left_population) < self.min_pop or
-            node.depth >= self.max_depth or
+            node.depth + 1 >= self.max_depth or
             np.unique(self.target[left_population]).size == 1
         )
 
@@ -414,7 +415,7 @@ class Decision_Tree():
 
         is_right_leaf = (
             np.sum(right_population) < self.min_pop or
-            node.depth >= self.max_depth or
+            node.depth + 1 >= self.max_depth or
             np.unique(self.target[right_population]).size == 1
         )
 
