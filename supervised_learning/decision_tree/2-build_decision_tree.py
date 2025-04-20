@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
     A script that defines a decision tree,
-    determines the max depth of the tree
-    and counts the number of nodes.
+    determines the max depth of the tree,
+    counts the number of nodes in the tree
+    and displays the tree representation.
 """
 import numpy as np
 
@@ -180,5 +181,5 @@ class Decision_Tree():
         return self.root.count_nodes_below(only_leaves=only_leaves)
 
     def __str__(self):
-        """ Build the root description for the tree display """
-        return self.root.__str__()
+        """ Returns the root description for the tree display """
+        return self.root.__str__() + "\n"
