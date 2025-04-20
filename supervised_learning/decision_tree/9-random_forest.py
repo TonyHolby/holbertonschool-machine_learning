@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import numpy as np
+Decision_Tree = __import__('8-build_decision_tree').Decision_Tree
 """
     A class named Random Forest that :
     - build a large list of decision trees,
@@ -6,8 +8,6 @@
     - trains the random forest model,
     - computes the accuracy of the model.
 """
-import numpy as np
-Decision_Tree = __import__('8-build_decision_tree').Decision_Tree
 
 
 class Random_Forest():
