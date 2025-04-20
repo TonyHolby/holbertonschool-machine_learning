@@ -403,7 +403,7 @@ class Decision_Tree():
 
         is_left_leaf = (
             np.sum(left_population) < self.min_pop or
-            node.depth + 1 >= self.max_depth or
+            node.depth >= self.max_depth or
             np.unique(self.target[left_population]).size == 1
         )
 
@@ -415,7 +415,7 @@ class Decision_Tree():
 
         is_right_leaf = (
             np.sum(right_population) < self.min_pop or
-            node.depth + 1 >= self.max_depth or
+            node.depth >= self.max_depth or
             np.unique(self.target[right_population]).size == 1
         )
 
@@ -437,7 +437,7 @@ class Decision_Tree():
             Returns:
                 A leaf node with its class value set to the most common target.
         """
-        value = self.target[sub_population].mean()
+        value = np.bincount(self.target[sub_population]).argmax()
         leaf_child = Leaf(value)
         leaf_child.depth = node.depth + 1
         leaf_child.subpopulation = sub_population
