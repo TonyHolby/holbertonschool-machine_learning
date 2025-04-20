@@ -2,15 +2,18 @@
 import numpy as np
 Decision_Tree = __import__('8-build_decision_tree').Decision_Tree
 """
-    A class named Random Forest that :
-    - build a large list of decision trees,
-    - predicts the class of each tree in the forest,
-    - trains the random forest model,
-    - computes the accuracy of the model.
+    A script that creates a new class Random_Forest.
 """
 
 
 class Random_Forest():
+    """
+        A class named Random Forest that :
+        - build a large list of decision trees,
+        - predicts the class of each tree in the forest,
+        - trains the random forest model,
+        - computes the accuracy of the model.
+    """
     def __init__(self, n_trees=100, max_depth=10, min_pop=1, seed=0):
         """
             Initializes the forest with hyperparameters.
