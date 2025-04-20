@@ -81,10 +81,11 @@ class Isolation_Random_Forest():
                 n_suspects (int): The number of suspects to return.
 
             Returns:
-                A tuple (outlier_indices, anomaly_scores[outlier_indices])
+                A tuple (suspects_values, anomaly_scores[outlier_indices])
         """
         anomaly_scores = self.predict(explanatory)
         n_suspects = min(n_suspects, len(explanatory))
         outlier_indices = np.argsort(anomaly_scores)[:n_suspects]
+        suspects_values = explanatory[outlier_indices]
 
-        return outlier_indices, anomaly_scores[outlier_indices]
+        return suspects_values, anomaly_scores[outlier_indices]
