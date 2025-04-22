@@ -52,7 +52,7 @@ class Neuron:
             Returns:
                 The private attribute __A.
         """
-        x = np.matmul(self.__W, X) + self.__b
-        self.__A = 1 / (1 + np.exp(-x))
+        Z = np.matmul(self.__W, X) + self.__b
+        self.__A = 1 / (1 + np.exp(-Z))
 
         return self.__A
