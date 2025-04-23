@@ -151,13 +151,13 @@ class Neuron:
 
         if not isinstance(step, int):
             raise TypeError("step must be an integer")
-        if step < 0 or step > iterations:
+        if step <= 0 or step > iterations:
             raise ValueError("step must be positive and <= iterations")
 
         cost_during_iteration = []
         step_counter = []
 
-        for i in range(iterations):
+        for i in range(iterations + 1):
             A = self.forward_prop(X)
 
             if i % step == 0 or i == iterations:
@@ -168,7 +168,8 @@ class Neuron:
                     cost_during_iteration.append(cost)
                     step_counter.append(i)
 
-            self.gradient_descent(X, Y, A, alpha)
+            if i < iterations:
+                self.gradient_descent(X, Y, A, alpha)
 
         if graph:
             plt.plot(step_counter, cost_during_iteration, 'b')
