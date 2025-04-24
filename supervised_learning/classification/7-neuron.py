@@ -173,8 +173,8 @@ class Neuron:
 
         if graph:
             plt.plot(step_counter, cost_during_iteration, 'b')
-            plt.xlabel("Iteration")
-            plt.ylabel("Cost")
+            plt.xlabel("iteration")
+            plt.ylabel("cost")
             plt.title("Training Cost")
             plt.show()
 
