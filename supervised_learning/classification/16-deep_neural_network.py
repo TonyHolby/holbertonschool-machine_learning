@@ -22,7 +22,7 @@ class DeepNeuralNetwork:
         """
         if not isinstance(nx, int):
             raise TypeError("nx must be an integer")
-        if nx < 1:
+        if nx <= 0:
             raise ValueError("nx must be a positive integer")
 
         if not isinstance(layers, list) or len(layers) == 0:
@@ -36,3 +36,7 @@ class DeepNeuralNetwork:
             self.weights['W' + str(i)] = np.random.randn(
                 layers[i], layers[i-1]) * np.sqrt(2 / layers[i-1])
             self.weights['b' + str(i)] = np.zeros((layers[i], 1))
+
+        self.weights['W' + str(self.L)] = np.random.randn(
+            layers[self.L-1], layers[self.L-2]) * np.sqrt(2 / layers[self.L-2])
+        self.weights['b' + str(self.L)] = np.zeros((layers[self.L-1], 1))
