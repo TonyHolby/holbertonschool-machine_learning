@@ -34,11 +34,11 @@ class DeepNeuralNetwork:
         self.cache = {}
         self.weights = {}
 
-        for i in range(1, self.L):
-            self.weights['W' + str(i)] = np.random.randn(
-                layers[i], layers[i-1]) * np.sqrt(2 / layers[i-1])
-            self.weights['b' + str(i)] = np.zeros((layers[i], 1))
-
-        self.weights['W' + str(self.L)] = np.random.randn(
-            layers[self.L-1], layers[self.L-2]) * np.sqrt(2 / layers[self.L-2])
-        self.weights['b' + str(self.L)] = np.zeros((layers[self.L-1], 1))
+        for i in range(self.L):
+            if i == 0:
+                self.weights['W1'] = np.random.randn(
+                    layers[0], nx) * np.sqrt(2 / nx)
+            else:
+                self.weights['W' + str(i + 1)] = np.random.randn(
+                    layers[i], layers[i - 1]) * np.sqrt(2 / layers[i - 1])
+            self.weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
