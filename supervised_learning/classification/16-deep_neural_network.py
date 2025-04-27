@@ -22,7 +22,7 @@ class DeepNeuralNetwork:
         """
         if not isinstance(nx, int):
             raise TypeError("nx must be an integer")
-        if nx < 1:
+        if nx <= 1:
             raise ValueError("nx must be a positive integer")
 
         if not isinstance(layers, list) or len(layers) == 0:
