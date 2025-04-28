@@ -149,11 +149,13 @@ class DeepNeuralNetwork:
         dZ = self.__cache['A' + str(self.__L)] - Y
 
         for i in range(self.__L, 0, -1):
-            dZl = self.__cache['A' + str(i)] - Y
-            dWl = (1 / m) * np.matmul(dZl, self.__cache['A' + str(i-1)].T)
-            dbl = (1 / m) * np.sum(dZl, axis=1, keepdims=True)
+            previous_A = cache['A' + str(i-1)]
+            W = self.__weights['W' + str(i)]
+
+            dW = (1 / m) * np.matmul(dZ, previous_A.T)
+            db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
 
             self.__weights['W' + str(i)] = self.__weights[
-                'W' + str(i)] - alpha * dWl
+                'W' + str(i)] - alpha * dW
             self.__weights['b' + str(i)] = self.__weights[
-                'b' + str(i)] - alpha * dbl
+                'b' + str(i)] - alpha * db
