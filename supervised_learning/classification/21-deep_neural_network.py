@@ -159,3 +159,7 @@ class DeepNeuralNetwork:
                 'W' + str(i)] - alpha * dW
             self.__weights['b' + str(i)] = self.__weights[
                 'b' + str(i)] - alpha * db
+
+        if i > 1:
+            A_prev = cache['A' + str(i-1)]
+            dZ = np.matmul(W.T, dZ) * previous_A * (1 - previous_A)
