@@ -145,12 +145,13 @@ class DeepNeuralNetwork:
                 alpha (float): The learning rate.
         """
         m = Y.shape[1]
+        copy_of_weights = self.__weights.copy()
 
         dZ = self.__cache['A' + str(self.__L)] - Y
 
         for i in range(self.__L, 0, -1):
             previous_A = cache['A' + str(i-1)]
-            W = self.__weights['W' + str(i)]
+            W = copy_of_weights['W' + str(i)]
 
             dW = (1 / m) * np.matmul(dZ, previous_A.T)
             db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
