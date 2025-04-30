@@ -19,7 +19,13 @@ def one_hot_decode(one_hot):
             labels for each example, or None on failure.
     """
     try:
+        if not isinstance(one_hot, np.ndarray):
+            return None
+
         oh_decoding = np.argmax(one_hot, axis=0)
+
+        if oh_decoding.ndim != 1:
+            return None
 
         return oh_decoding
 
