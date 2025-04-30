@@ -167,7 +167,7 @@ class DeepNeuralNetwork:
                 previous_A = cache['A' + str(i-1)]
                 dZ = np.matmul(W.T, dZ) * previous_A * (1 - previous_A)
 
-    def train(self, X, Y, iterations=5000, alpha=0.05,
+    def train(self, X, Y, iterations, alpha=0.05,
               verbose=True, graph=True, step=100):
         """
             Trains the deep neural network by updating the private
@@ -202,6 +202,8 @@ class DeepNeuralNetwork:
 
         if not isinstance(step, int):
             raise TypeError("step must be an integer")
+        if step > iterations:
+            step = iterations
         if step <= 0 or step > iterations:
             raise ValueError("step must be positive and <= iterations")
 
