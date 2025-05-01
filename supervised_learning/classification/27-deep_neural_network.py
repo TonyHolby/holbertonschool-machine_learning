@@ -221,6 +221,13 @@ class DeepNeuralNetwork:
         if step <= 0 or step > iterations:
             raise ValueError("step must be positive and <= iterations")
 
+        if Y.ndim == 2 and Y.shape[0] == 1:
+            classes = np.max(Y) + 1
+            m = Y.shape[1]
+            Y_one_hot = np.zeros((classes, m))
+            Y_one_hot[Y[0], np.arange(m)] = 1
+            Y = Y_one_hot
+
         cost_during_iteration = []
         step_counter = []
 
