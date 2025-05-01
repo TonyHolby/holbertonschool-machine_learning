@@ -37,13 +37,12 @@ class DeepNeuralNetwork:
         self.__weights = {}
 
         for i in range(self.__L):
-            if i == 0:
-                self.__weights['W1'] = np.random.randn(
-                    layers[0], nx) * np.sqrt(2 / nx)
-            else:
-                self.__weights['W' + str(i + 1)] = np.random.randn(
-                    layers[i], layers[i - 1]) * np.sqrt(2 / layers[i - 1])
-            self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
+            key_W = 'W' + str(i + 1)
+            key_b = 'b' + str(i + 1)
+            layer_input = nx if i == 0 else layers[i - 1]
+            self.__weights[key_W] = (np.random.randn(layers[i], layer_input)
+                                     * np.sqrt(2 / layer_input))
+            self.__weights[key_b] = np.zeros((layers[i], 1))
 
     @property
     def L(self):
@@ -134,6 +133,8 @@ class DeepNeuralNetwork:
                 The neuron's prediction and the cost of the network.
         """
         Y_hat, _ = self.forward_prop(X)
+        network_cost = self.cost(Y, Y_hat)
+
         predicted_classes = np.argmax(Y_hat, axis=0)
         m = Y.shape[1]
         classes = Y.shape[0]
@@ -141,8 +142,6 @@ class DeepNeuralNetwork:
 
         for i in range(m):
             predictions[predicted_classes[i], i] = 1
-
-        network_cost = self.cost(Y, Y_hat)
 
         return predictions, network_cost
 
@@ -270,6 +269,7 @@ class DeepNeuralNetwork:
         with open(filename, 'wb') as file_to_save:
             pickle.dump(self, file_to_save)
 
+    @staticmethod
     def load(filename):
         """
             Loads a pickled DeepNeuralNetwork object.
