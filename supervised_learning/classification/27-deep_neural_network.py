@@ -114,7 +114,7 @@ class DeepNeuralNetwork:
             Returns:
                 The cost of the model.
         """
-        loss_function = -np.sum(Y * np.log(A))
+        loss_function = -np.sum(Y * np.log(A + 1e-8))
         m = Y.shape[1]
         cost_function = (1 / m) * loss_function
 
@@ -175,11 +175,12 @@ class DeepNeuralNetwork:
                 'b' + str(i)] - alpha * db
 
             if i > 1:
-                previous_dZ = np.matmul(
-                    self.__weights['W' + str(i - 1)],
-                    self.__cache['A' + str(i - 2)]
-                    ) + self.__weights['b' + str(i - 1)]
-                dZ = np.matmul(W.T, dZ) * (previous_dZ > 0)
+                dA_prev = np.matmul(W.T, dZ)
+                Z_prev = np.matmul(
+                    copy_of_weights['W' + str(i - 1)],
+                    cache['A' + str(i - 2)]
+                    ) + copy_of_weights['b' + str(i - 1)]
+                dZ = dA_prev * (Z_prev > 0)
 
     def train(self, X, Y, iterations, alpha=0.05,
               verbose=True, graph=True, step=100):
@@ -190,7 +191,7 @@ class DeepNeuralNetwork:
             Args:
                 X (np.ndarray): A numpy ndarray of shape (nx, m) that
                     contains input data.
-                Y (np.ndarray): A numpy ndarray of shape (1, m) that
+                Y (np.ndarray): A one_hot numpy ndarray of shape (classes, m) that
                     contains the correct labels for the input data.
                 alpha (float): The learning rate.
                 iterations (int): The number of iterations to train over.
