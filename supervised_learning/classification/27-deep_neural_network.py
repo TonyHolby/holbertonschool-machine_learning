@@ -134,10 +134,11 @@ class DeepNeuralNetwork:
                 The neuron's prediction and the cost of the network.
         """
         Y_hat, _ = self.forward_prop(X)
+        predicted_classes = np.argmax(Y_hat, axis=0)
         m = Y.shape[1]
         classes = Y.shape[0]
         predictions = np.zeros((classes, m))
-        predicted_classes = np.argmax(Y_hat, axis=0)
+
         for i in range(m):
             predictions[predicted_classes[i], i] = 1
 
@@ -191,8 +192,8 @@ class DeepNeuralNetwork:
             Args:
                 X (np.ndarray): A numpy ndarray of shape (nx, m) that
                     contains input data.
-                Y (np.ndarray): A one_hot numpy ndarray of shape (classes, m) that
-                    contains the correct labels for the input data.
+                Y (np.ndarray): A one_hot numpy ndarray of shape (classes, m)
+                    that contains the correct labels for the input data.
                 alpha (float): The learning rate.
                 iterations (int): The number of iterations to train over.
                 verbose (boolean): A boolean that defines whether or not
