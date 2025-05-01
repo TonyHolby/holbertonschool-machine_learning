@@ -134,9 +134,10 @@ class DeepNeuralNetwork:
                 The neuron's prediction and the cost of the network.
         """
         Y_hat, _ = self.forward_prop(X)
+        predictions = np.argmax(Y_hat, axis=0)
         network_cost = self.cost(Y, Y_hat)
 
-        return Y_hat, network_cost
+        return predictions, network_cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """
