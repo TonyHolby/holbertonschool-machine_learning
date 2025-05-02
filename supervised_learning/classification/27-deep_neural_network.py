@@ -158,10 +158,10 @@ class DeepNeuralNetwork:
         m = Y.shape[1]
         copy_of_weights = self.__weights.copy()
 
-        dZ = self.__cache['A' + str(self.__L)] - Y
+        dZ = cache['A' + str(self.__L)] - Y
 
         for i in range(self.__L, 0, -1):
-            previous_A = self.__cache['A' + str(i - 1)]
+            previous_A = cache['A' + str(i - 1)]
             W = copy_of_weights['W' + str(i)]
 
             dW = (1 / m) * np.matmul(dZ, previous_A.T)
@@ -176,7 +176,7 @@ class DeepNeuralNetwork:
                 dA = np.matmul(W.T, dZ)
                 Z = np.matmul(
                     copy_of_weights['W' + str(i - 1)],
-                    self.__cache['A' + str(i - 2)]
+                    cache['A' + str(i - 2)]
                     ) + copy_of_weights['b' + str(i - 1)]
                 dZ = dA * (Z > 0)
 
