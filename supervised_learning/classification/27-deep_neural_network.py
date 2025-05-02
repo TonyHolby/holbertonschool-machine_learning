@@ -133,8 +133,13 @@ class DeepNeuralNetwork:
                 The neuron's prediction and the cost of the network.
         """
         Y_hat, _ = self.forward_prop(X)
-        predictions = np.argmax(Y_hat, axis=0)
         network_cost = self.cost(Y, Y_hat)
+
+        predicted_classes = np.argmax(Y_hat, axis=0)
+        m = Y_hat.shape[1]
+        classes = Y_hat.shape[0]
+        predictions = np.zeros_like((classes, m))
+        predictions[predicted_classes, np.arange(m)] = 1
 
         return predictions, network_cost
 
