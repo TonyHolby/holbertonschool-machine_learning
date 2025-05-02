@@ -46,9 +46,13 @@ class DeepNeuralNetwork:
 
         for i in range(self.__L):
             layer_input = nx if i == 0 else layers[i - 1]
+            if self.__activation == 'tanh':
+                weight_init = np.sqrt(1 / layer_input)
+            else:
+                weight_init = np.sqrt(2 / layer_input)
+
             self.__weights['W' + str(i + 1)] = (
-                np.random.randn(layers[i], layer_input)
-                * np.sqrt(2 / layer_input))
+                np.random.randn(layers[i], layer_input) * weight_init)
             self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
@@ -174,31 +178,26 @@ class DeepNeuralNetwork:
         m = Y.shape[1]
         copy_of_weights = self.__weights.copy()
 
-        dZ = self.__cache['A' + str(self.__L)] - Y
+        dZ = cache['A' + str(self.__L)] - Y
 
         for i in range(self.__L, 0, -1):
-            if self.__activation == 'sig':
-                dA_prev = self.__cache['A' + str(i - 1)] * (
-                    1 - self.__cache['A' + str(i - 1)])
-            elif self.__activation == 'tanh':
-                dA_prev = 1 - (self.__cache['A' + str(i-1)]) ** 2
-            W = copy_of_weights['W' + str(i)]
+            A_prev = cache['A' + str(i - 1)]
+            W_current = copy_of_weights['W' + str(i)]
 
-            dW = (1 / m) * np.matmul(dZ, dA_prev.T)
+            dW = (1 / m) * np.matmul(dZ, A_prev.T)
             db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
 
-            self.__weights['W' + str(i)] = self.__weights[
-                'W' + str(i)] - alpha * dW
-            self.__weights['b' + str(i)] = self.__weights[
-                'b' + str(i)] - alpha * db
+            self.__weights['W' + str(i)] -= alpha * dW
+            self.__weights['b' + str(i)] -= alpha * db
 
             if i > 1:
-                dA_prev = np.matmul(W.T, dZ)
-                Z_prev = np.matmul(
-                    copy_of_weights['W' + str(i - 1)],
-                    self.__cache['A' + str(i - 2)]
-                    ) + copy_of_weights['b' + str(i - 1)]
-                dZ = dA_prev * (Z_prev > 0)
+                dA_prev = np.matmul(W_current.T, dZ)
+                A_prev = cache['A' + str(i - 1)]
+
+                if self.__activation == 'sig':
+                    dZ = dA_prev * A_prev * (1 - A_prev)
+                elif self.__activation == 'tanh':
+                    dZ = dA_prev * (1 - A_prev ** 2)
 
     def train(self, X, Y, iterations, alpha=0.05,
               verbose=True, graph=True, step=100):
@@ -239,13 +238,6 @@ class DeepNeuralNetwork:
             step = iterations
         if step <= 0 or step > iterations:
             raise ValueError("step must be positive and <= iterations")
-
-        if Y.ndim == 2 and Y.shape[0] == 1:
-            classes = np.max(Y) + 1
-            m = Y.shape[1]
-            Y_one_hot = np.zeros((classes, m))
-            Y_one_hot[Y[0], np.arange(m)] = 1
-            Y = Y_one_hot
 
         cost_during_iteration = []
         step_counter = []
