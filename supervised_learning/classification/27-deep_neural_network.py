@@ -136,12 +136,8 @@ class DeepNeuralNetwork:
         network_cost = self.cost(Y, Y_hat)
 
         predicted_classes = np.argmax(Y_hat, axis=0)
-        m = Y_hat.shape[1]
-        classes = Y_hat.shape[0]
-        predictions = np.zeros_like((classes, m))
-        predictions[predicted_classes, np.arange(m)] = 1
 
-        return predictions, network_cost
+        return predicted_classes, network_cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """
