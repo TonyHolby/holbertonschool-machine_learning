@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
     A script that defines a class named DeepNeuralNetwork that defines
-    a deep neural network performing binary classification.
+    a deep neural network performing multiclass classification.
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,7 +11,7 @@ import pickle
 class DeepNeuralNetwork:
     """
         A class that defines a deep neural network performing
-        binary classification with private instance attributes.
+        multiclass classification with private instance attributes.
     """
     def __init__(self, nx, layers):
         """
@@ -37,12 +37,12 @@ class DeepNeuralNetwork:
         self.__weights = {}
 
         for i in range(self.__L):
-            key_W = 'W' + str(i + 1)
-            key_b = 'b' + str(i + 1)
             layer_input = nx if i == 0 else layers[i - 1]
-            self.__weights[key_W] = (np.random.randn(layers[i], layer_input)
-                                     * np.sqrt(2 / layer_input))
-            self.__weights[key_b] = np.zeros((layers[i], 1))
+            self.__weights['W' + str(i + 1)] = (
+                np.random.randn(
+                    layers[i], layer_input) * np.sqrt(2 / layer_input)
+                    )
+            self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
     def L(self):
@@ -139,7 +139,7 @@ class DeepNeuralNetwork:
         m = Y_hat.shape[1]
         classes = Y_hat.shape[0]
         predictions = np.zeros((classes, m))
-        predictions[predicted_classes, np.arange(Y_hat.shape[1])] = 1
+        predictions[predicted_classes, np.arange(m)] = 1
 
         return predictions, network_cost
 
@@ -161,7 +161,7 @@ class DeepNeuralNetwork:
         dZ = self.__cache['A' + str(self.__L)] - Y
 
         for i in range(self.__L, 0, -1):
-            previous_A = cache['A' + str(i-1)]
+            previous_A = self.__cache['A' + str(i-1)]
             W = copy_of_weights['W' + str(i)]
 
             dW = (1 / m) * np.matmul(dZ, previous_A.T)
@@ -173,12 +173,12 @@ class DeepNeuralNetwork:
                 'b' + str(i)] - alpha * db
 
             if i > 1:
-                dA_prev = np.matmul(W.T, dZ)
-                Z_prev = np.matmul(
+                dA = np.matmul(W.T, dZ)
+                Z = np.matmul(
                     copy_of_weights['W' + str(i - 1)],
-                    cache['A' + str(i - 2)]
+                    self.__cache['A' + str(i - 2)]
                     ) + copy_of_weights['b' + str(i - 1)]
-                dZ = dA_prev * (Z_prev > 0)
+                dZ = dA * (Z > 0)
 
     def train(self, X, Y, iterations, alpha=0.05,
               verbose=True, graph=True, step=100):
