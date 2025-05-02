@@ -84,7 +84,7 @@ class DeepNeuralNetwork:
         for i in range(1, self.__L + 1):
             Z = np.matmul(
                 self.__weights['W' + str(i)],
-                self.__cache['A' + str(i-1)]) + self.__weights['b' + str(i)]
+                self.__cache['A' + str(i - 1)]) + self.__weights['b' + str(i)]
             if i == self.__L:
                 exp_Z = np.exp(
                     Z - np.max(Z, axis=0, keepdims=True))
@@ -133,13 +133,8 @@ class DeepNeuralNetwork:
                 The neuron's prediction and the cost of the network.
         """
         Y_hat, _ = self.forward_prop(X)
+        predictions = np.argmax(Y_hat, axis=0)
         network_cost = self.cost(Y, Y_hat)
-
-        predicted_classes = np.argmax(Y_hat, axis=0)
-        m = Y_hat.shape[1]
-        classes = Y_hat.shape[0]
-        predictions = np.zeros((classes, m))
-        predictions[predicted_classes, np.arange(m)] = 1
 
         return predictions, network_cost
 
