@@ -19,9 +19,6 @@ def save_weights(network, filename, save_format='keras'):
         Returns:
             None.
     """
-    if save_format.endswith('.keras'):
-        save_format.replace('.keras', '.weights.h5')
-
     network.save_weights(filename, save_format)
 
 
