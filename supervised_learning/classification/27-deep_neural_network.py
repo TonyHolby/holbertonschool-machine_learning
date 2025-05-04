@@ -135,7 +135,7 @@ class DeepNeuralNetwork:
         Y_hat, _ = self.forward_prop(X)
         network_cost = self.cost(Y, Y_hat)
 
-        predicted_classes = np.argmax(Y_hat, axis=0)
+        predicted_classes = np.argmax(Y, axis=0)
         m = Y_hat.shape[1]
         classes = Y_hat.shape[0]
         predictions = np.zeros((classes, m))
