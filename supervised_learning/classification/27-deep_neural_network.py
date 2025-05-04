@@ -40,8 +40,9 @@ class DeepNeuralNetwork:
             layer_input = nx if i == 0 else layers[i - 1]
             self.__weights['W' + str(i + 1)] = (
                 np.random.randn(
-                    layers[i], layer_input) * np.sqrt(2 / layer_input)
-                    )
+                    layers[i], layer_input) * np.sqrt(1 / layer_input)
+            )
+            
             self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
