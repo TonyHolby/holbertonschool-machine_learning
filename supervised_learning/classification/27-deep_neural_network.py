@@ -134,7 +134,7 @@ class DeepNeuralNetwork:
 
         predicted_classes = np.argmax(Y_hat, axis=0)
         m = Y_hat.shape[1]
-        classes = Y.shape[0]
+        classes = Y_hat.shape[0]
         predictions = np.zeros((classes, m))
         predictions[predicted_classes, np.arange(m)] = 1
 
