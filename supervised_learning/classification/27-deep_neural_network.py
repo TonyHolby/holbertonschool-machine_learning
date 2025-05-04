@@ -153,29 +153,25 @@ class DeepNeuralNetwork:
                 alpha (float): The learning rate.
         """
         m = Y.shape[1]
-        copy_of_weights = self.__weights.copy()
+        weights_copy = self.__weights.copy()
+        A_final = cache['A' + str(self.__L)]
 
-        dZ = cache['A' + str(self.__L)] - Y
+        dZ = A_final - Y
 
         for i in range(self.__L, 0, -1):
-            previous_A = cache['A' + str(i - 1)]
-            W = copy_of_weights['W' + str(i)]
+            A_prev = cache['A' + str(i - 1)]
+            W = weights_copy['W' + str(i)]
 
-            dW = (1 / m) * np.matmul(dZ, previous_A.T)
+            dW = (1 / m) * np.matmul(dZ, A_prev.T)
             db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
 
-            self.__weights['W' + str(i)] = self.__weights[
-                'W' + str(i)] - alpha * dW
-            self.__weights['b' + str(i)] = self.__weights[
-                'b' + str(i)] - alpha * db
+            self.__weights['W' + str(i)] -= alpha * dW
+            self.__weights['b' + str(i)] -= alpha * db
 
             if i > 1:
                 dA = np.matmul(W.T, dZ)
-                Z = np.matmul(
-                    copy_of_weights['W' + str(i - 1)],
-                    cache['A' + str(i - 2)]
-                    ) + copy_of_weights['b' + str(i - 1)]
-                dZ = dA * (Z > 0)
+                A_prev = cache['A' + str(i - 1)]
+                dZ = dA * A_prev * (1 - A_prev)
 
     def train(self, X, Y, iterations, alpha=0.05,
               verbose=True, graph=True, step=100):
