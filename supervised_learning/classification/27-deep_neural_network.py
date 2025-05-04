@@ -42,7 +42,7 @@ class DeepNeuralNetwork:
                 np.random.randn(
                     layers[i], layer_input) * np.sqrt(1 / layer_input)
             )
-            
+
             self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
