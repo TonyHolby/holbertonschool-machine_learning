@@ -86,12 +86,8 @@ class DeepNeuralNetwork:
             Z = np.matmul(
                 self.__weights['W' + str(i)],
                 self.__cache['A' + str(i - 1)]) + self.__weights['b' + str(i)]
-
-            if i != self.__L:
-                A = np.maximum(0, Z)
-            else:
-                exp_Z = np.exp(Z - np.max(Z, axis=0, keepdims=True))
-                A = exp_Z / np.sum(exp_Z, axis=0, keepdims=True)
+            exp_Z = np.exp(Z - np.max(Z, axis=0, keepdims=True))
+            A = exp_Z / np.sum(exp_Z, axis=0, keepdims=True)
 
             self.__cache['A' + str(i)] = A
 
