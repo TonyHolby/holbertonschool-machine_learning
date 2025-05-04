@@ -85,12 +85,9 @@ class DeepNeuralNetwork:
             Z = np.matmul(
                 self.__weights['W' + str(i)],
                 self.__cache['A' + str(i - 1)]) + self.__weights['b' + str(i)]
-            if i == self.__L:
-                exp_Z = np.exp(
-                    Z - np.max(Z, axis=0, keepdims=True))
-                A = exp_Z / np.sum(exp_Z, axis=0, keepdims=True)
-            else:
-                A = np.maximum(0, Z)
+            exp_Z = np.exp(Z - np.max(Z, axis=0, keepdims=True))
+            A = exp_Z / np.sum(exp_Z, axis=0, keepdims=True)
+
 
             self.__cache['A' + str(i)] = A
 
@@ -135,8 +132,8 @@ class DeepNeuralNetwork:
         Y_hat, _ = self.forward_prop(X)
         network_cost = self.cost(Y, Y_hat)
 
-        predicted_classes = np.argmax(Y, axis=0)
-        m = Y.shape[1]
+        predicted_classes = np.argmax(Y_hat, axis=0)
+        m = Y_hat.shape[1]
         classes = Y.shape[0]
         predictions = np.zeros((classes, m))
         predictions[predicted_classes, np.arange(m)] = 1
