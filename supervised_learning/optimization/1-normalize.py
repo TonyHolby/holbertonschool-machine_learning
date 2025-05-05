@@ -26,6 +26,6 @@ def normalize(X, m, s):
 
     for feature in range(nx):
         X_norm[:, feature] = (X[:, feature] - m[feature]
-                              ) / np.sqrt(s[feature] + 1e-8)
+                              ) / (s[feature] + 1e-16)
 
     return X_norm
