@@ -18,7 +18,7 @@ def normalization_constants(X):
         Returns:
             The mean and standard deviation of each feature, respectively.
     """
-    m, nx = X.shape
+    nx = X.shape[1]
     means = np.zeros(nx)
     standard_deviation = np.zeros(nx)
 
@@ -27,4 +27,4 @@ def normalization_constants(X):
         means[feature] = np.mean(number_of_features)
         standard_deviation[feature] = np.std(number_of_features)
 
-    return np.array(means), np.array(standard_deviation)
+    return means, standard_deviation
