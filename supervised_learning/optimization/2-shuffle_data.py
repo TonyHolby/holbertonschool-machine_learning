@@ -22,7 +22,9 @@ def shuffle_data(X, Y):
         Returns:
             The shuffled X and Y matrices.
     """
-    shuffled_X = np.random.permutation(X)
-    shuffled_Y = np.random.permutation(Y)
+    m = X.shape[0]
+    permutation = np.random.permutation(m)
+    shuffled_X = X[permutation]
+    shuffled_Y = Y[permutation]
 
     return shuffled_X, shuffled_Y
