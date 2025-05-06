@@ -15,11 +15,12 @@ def moving_average(data, beta):
         Returns:
             A list containing the moving averages of data.
     """
-    weighted_ema = data[0]
+    weighted_ema = 0
     ema_list = []
 
-    for element in data:
-        weighted_ema = beta * weighted_ema + (1-beta) * element
-        ema_list.append(weighted_ema)
+    for t, element in enumerate(data, 1):
+        weighted_ema = beta * weighted_ema + (1 - beta) * element
+        corrected_ema = weighted_ema / (1 - beta ** t)
+        ema_list.append(corrected_ema)
 
     return ema_list
