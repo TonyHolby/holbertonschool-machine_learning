@@ -3,6 +3,8 @@
     A function that calculates the F1 score of a confusion matrix.
 """
 import numpy as np
+sensitivity = __import__('1-sensitivity').sensitivity
+precision = __import__('2-precision').precision
 
 
 def f1_score(confusion):
@@ -19,23 +21,8 @@ def f1_score(confusion):
             A numpy.ndarray of shape (classes,) containing the F1 score
             of each class.
     """
-    actual_classes = confusion.shape[0]
-    predictions = confusion.shape[1]
-    precision = np.zeros(predictions)
-    recall = np.zeros(predictions)
-    classes_f1 = np.zeros(predictions)
-
-    for real_class in range(actual_classes):
-        true_positives = confusion[real_class, real_class]
-        sum_of_real_classes = np.sum(confusion[real_class, :])
-        recall[real_class] = true_positives / sum_of_real_classes
-
-    for predicted_class in range(predictions):
-        true_positives = confusion[predicted_class, predicted_class]
-        sum_of_predicted_classes = np.sum(confusion[:, predicted_class])
-        precision[
-            predicted_class] = true_positives / sum_of_predicted_classes
-
-    classes_f1 = (2 * precision * recall) / (precision + recall)
+    accuracy = precision(confusion)
+    recall = sensitivity(confusion)
+    classes_f1 = (2 * accuracy * recall) / (accuracy + recall)
 
     return classes_f1
