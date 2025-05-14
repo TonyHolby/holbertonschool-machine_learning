@@ -25,7 +25,7 @@ def sensitivity(confusion):
 
     for real_class in range(actual_classes):
         true_positives = confusion[real_class, real_class]
-        sum_of_predictions = np.sum(confusion[real_class, :])
-        classes_sensitivity[real_class] = true_positives / sum_of_predictions
+        sum_of_real_classes = np.sum(confusion[real_class, :])
+        classes_sensitivity[real_class] = true_positives / sum_of_real_classes
 
     return classes_sensitivity
