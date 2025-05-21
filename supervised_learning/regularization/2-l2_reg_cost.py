@@ -20,7 +20,7 @@ def l2_reg_cost(cost, model):
             A tensor containing the total cost for each layer of the network,
             accounting for L2 regularization.
     """
-    l2_loss = tf.add_n(model.losses)
+    l2_loss = model.losses
     total_cost = cost + l2_loss
 
     return total_cost
