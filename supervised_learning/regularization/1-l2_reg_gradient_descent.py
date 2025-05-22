@@ -28,16 +28,17 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
 
     for layer in range(L, 0, -1):
         A_previous = cache['A' + str(layer - 1)]
-        A_current = cache['A' + str(layer)]
-        W_current = weights['W' + str(layer)]
+        A = cache['A' + str(layer)]
+        W = weights['W' + str(layer)]
 
         if layer == L:
-            dZ = A_current - Y
+            dZ = A - Y
         else:
             dA = np.matmul(weights['W' + str(layer + 1)].T, dZ)
-            dZ = dA * (1 - A_current ** 2)
+            dZ = dA * (1 - A ** 2)
 
-        dW = (1 / m) * np.matmul(dZ, A_previous.T) + (lambtha / m) * W_current
+        dW = (1 / m) * np.matmul(dZ, A_previous.T) + (
+            lambtha / (2 * m)) * W ** 2
         db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
 
         weights['W' + str(layer)] -= alpha * dW
