@@ -49,4 +49,4 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
 
         weights['W' + str(layer)] -= alpha * dW
         weights['b' + str(layer)] -= alpha * db
-        weights['b' + str(layer)] = np.round(weights['b' + str(layer)], 8)
+        weights['b' + str(layer)] = np.around(weights['b' + str(layer)], 8).astype(np.float64)
