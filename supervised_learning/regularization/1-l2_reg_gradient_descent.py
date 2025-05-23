@@ -24,15 +24,11 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
             lambtha (float): the L2 regularization parameter
             L (int): the number of layers of the network.
     """
-    Y = Y.astype(np.float32)
-    for key in weights:
-        weights[key] = weights[key].astype(np.float32)
-    for key in cache:
-        cache[key] = cache[key].astype(np.float32)
-
     m = Y.shape[1]
 
     for layer in range(L, 0, -1):
+        weights['W' + str(layer)] = weights['W' + str(layer)].astype(np.float64)
+        weights['b' + str(layer)] = weights['b' + str(layer)].astype(np.float64)
         A_previous = cache['A' + str(layer - 1)]
         A = cache['A' + str(layer)]
         W = weights['W' + str(layer)]
