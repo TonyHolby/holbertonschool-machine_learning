@@ -52,7 +52,7 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     dW = np.zeros_like(W)
     db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
 
-    if padding == 'same':
+    if padding == "same":
         pad_h = max((h_new - 1) * sh + kh - h_prev, 0)
         pad_w = max((w_new - 1) * sw + kw - w_prev, 0)
         pad_top = pad_h // 2
@@ -64,10 +64,10 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
 
     A_prev_padded = np.pad(A_prev, ((0, 0), (pad_top, pad_bottom),
                                     (pad_left, pad_right), (0, 0)
-                                    ), mode='constant')
+                                    ), mode="constant")
     dA_prev_padded = np.pad(dA_prev, ((0, 0), (pad_top, pad_bottom),
                                       (pad_left, pad_right), (0, 0)
-                                      ), mode='constant')
+                                      ), mode="constant")
 
     for i in range(m):
         for h in range(h_new):
@@ -86,21 +86,21 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                                    ] += W[:, :, :, c] * dZ[i, h, w, c]
                     dW[:, :, :, c] += local_A * dZ[i, h, w, c]
 
-    if padding == 'same':
-        h_start = pad_top
-        if pad_bottom > 0:
-            h_end = -pad_bottom
-        else:
-            h_end = None
+        if padding == "same":
+            h_start = pad_top
+            if pad_bottom > 0:
+                h_end = -pad_bottom
+            else:
+                h_end = None
 
-        w_start = pad_left
-        if pad_right > 0:
-            w_end = -pad_right
-        else:
-            w_end = None
+            w_start = pad_left
+            if pad_right > 0:
+                w_end = -pad_right
+            else:
+                w_end = None
 
-        dA_prev = dA_prev_padded[:, h_start:h_end, w_start:w_end, :]
-    else:
-        dA_prev = dA_prev_padded
+            dA_prev = dA_prev_padded[:, h_start:h_end, w_start:w_end, :]
+        else:
+            dA_prev = dA_prev_padded
 
     return dA_prev, dW, db
