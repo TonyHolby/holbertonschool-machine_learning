@@ -53,23 +53,20 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
     db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
 
     if padding == "same":
-        pad_h = max((h_new - 1) * sh + kh - h_prev, 0)
-        pad_w = max((w_new - 1) * sw + kw - w_prev, 0)
-        pad_top = pad_h // 2
-        pad_bottom = pad_h - pad_top
-        pad_left = pad_w // 2
-        pad_right = pad_w - pad_left
+        pad_h = int(np.ceil(((h_prev - 1) * sh + kh - h_prev) / 2))
+        pad_w = int(np.ceil(((w_prev - 1) * sw + kw - w_prev) / 2))
     else:
-        pad_top = pad_bottom = pad_left = pad_right = 0
+        pad_h, pad_w = 0, 0
 
-    A_prev_padded = np.pad(A_prev, ((0, 0), (pad_top, pad_bottom),
-                                    (pad_left, pad_right), (0, 0)
-                                    ), mode="constant")
-    dA_prev_padded = np.pad(dA_prev, ((0, 0), (pad_top, pad_bottom),
-                                      (pad_left, pad_right), (0, 0)
-                                      ), mode="constant")
+    A_prev_pad = np.pad(A_prev, ((0, 0), (pad_h, pad_h),
+                                 (pad_w, pad_w), (0, 0)), mode='constant')
+    dA_prev_pad = np.pad(dA_prev, ((0, 0), (pad_h, pad_h),
+                                   (pad_w, pad_w), (0, 0)), mode='constant')
 
     for i in range(m):
+        a_prev = A_prev_pad[i]
+        da_prev = dA_prev_pad[i]
+
         for h in range(h_new):
             for w in range(w_new):
                 for c in range(c_new):
@@ -78,29 +75,18 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                     horiz_start = w * sw
                     horiz_end = horiz_start + kw
 
-                    local_A = A_prev_padded[i, vert_start:vert_end,
-                                            horiz_start:horiz_end, :]
+                    a_slice = a_prev[
+                        vert_start:vert_end, horiz_start:horiz_end, :]
 
-                    dA_prev_padded[i, vert_start:vert_end,
-                                   horiz_start:horiz_end, :
-                                   ] += W[:, :, :, c] * dZ[i, h, w, c]
-                    dW[:, :, :, c] += local_A * dZ[i, h, w, c]
+                    da_prev[vert_start:vert_end,
+                            horiz_start:horiz_end,
+                            :] += W[:, :, :, c] * dZ[i, h, w, c]
+                    dW[:, :, :, c] += a_slice * dZ[i, h, w, c]
 
         if padding == "same":
-            h_start = pad_top
-            if pad_bottom > 0:
-                h_end = -pad_bottom
-            else:
-                h_end = None
-
-            w_start = pad_left
-            if pad_right > 0:
-                w_end = -pad_right
-            else:
-                w_end = None
-
-            dA_prev = dA_prev_padded[:, h_start:h_end, w_start:w_end, :]
+            dA_prev[i] = da_prev[pad_h:-pad_h or None,
+                                 pad_w:-pad_w or None, :]
         else:
-            dA_prev = dA_prev_padded
+            dA_prev[i] = da_prev
 
     return dA_prev, dW, db
