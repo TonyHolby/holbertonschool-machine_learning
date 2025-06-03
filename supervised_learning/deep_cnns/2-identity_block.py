@@ -26,25 +26,25 @@ def identity_block(A_prev, filters):
     he_normal = keras.initializers.HeNormal(seed=0)
 
     x = keras.layers.Conv2D(filters=F11,
-                        kernel_size=(1, 1),
-                        padding='same',
-                        kernel_initializer=he_normal)(A_prev)
+                            kernel_size=(1, 1),
+                            padding='same',
+                            kernel_initializer=he_normal)(A_prev)
 
     x = keras.layers.BatchNormalization(axis=3)(x)
     x = keras.layers.Activation('relu')(x)
 
     x = keras.layers.Conv2D(filters=F3,
-                        kernel_size=(3, 3),
-                        padding='same',
-                        kernel_initializer=he_normal)(x)
+                            kernel_size=(3, 3),
+                            padding='same',
+                            kernel_initializer=he_normal)(x)
 
     x = keras.layers.BatchNormalization(axis=3)(x)
     x = keras.layers.Activation('relu')(x)
 
     x = keras.layers.Conv2D(filters=F12,
-                        kernel_size=(1, 1),
-                        padding='same',
-                        kernel_initializer=he_normal)(x)
+                            kernel_size=(1, 1),
+                            padding='same',
+                            kernel_initializer=he_normal)(x)
 
     x = keras.layers.BatchNormalization(axis=3)(x)
 
