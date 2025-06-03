@@ -3,7 +3,7 @@
     A function that builds an identity block as described in Deep Residual
     Learning for Image Recognition (2015).
 """
-from tensorflow import keras as K
+from tensorflow import keras
 
 
 def identity_block(A_prev, filters):
@@ -23,32 +23,32 @@ def identity_block(A_prev, filters):
             The activated output of the identity block.
     """
     F11, F3, F12 = filters
-    he_normal = K.initializers.HeNormal(seed=0)
+    he_normal = keras.initializers.HeNormal(seed=0)
 
-    x = K.layers.Conv2D(filters=F11,
+    x = keras.layers.Conv2D(filters=F11,
                         kernel_size=(1, 1),
                         padding='same',
                         kernel_initializer=he_normal)(A_prev)
 
-    x = K.layers.BatchNormalization(axis=3)(x)
-    x = K.layers.Activation('relu')(x)
+    x = keras.layers.BatchNormalization(axis=3)(x)
+    x = keras.layers.Activation('relu')(x)
 
-    x = K.layers.Conv2D(filters=F3,
+    x = keras.layers.Conv2D(filters=F3,
                         kernel_size=(3, 3),
                         padding='same',
                         kernel_initializer=he_normal)(x)
 
-    x = K.layers.BatchNormalization(axis=3)(x)
-    x = K.layers.Activation('relu')(x)
+    x = keras.layers.BatchNormalization(axis=3)(x)
+    x = keras.layers.Activation('relu')(x)
 
-    x = K.layers.Conv2D(filters=F12,
+    x = keras.layers.Conv2D(filters=F12,
                         kernel_size=(1, 1),
                         padding='same',
                         kernel_initializer=he_normal)(x)
 
-    x = K.layers.BatchNormalization(axis=3)(x)
+    x = keras.layers.BatchNormalization(axis=3)(x)
 
-    x = K.layers.Add()([x, A_prev])
-    x = K.layers.Activation('relu')(x)
+    x = keras.layers.Add()([x, A_prev])
+    x = keras.layers.Activation('relu')(x)
 
     return x
