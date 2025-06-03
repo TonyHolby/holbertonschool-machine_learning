@@ -12,7 +12,7 @@ def identity_block(A_prev, filters):
         for Image Recognition (2015).
 
         Args:
-            A_prev (tf.Tensor): the output from the previous layer.
+            A_prev (tf.Tensor): the output of the previous layer.
             filters (tuple or list): a tuple or list containing F11, F3, F12,
             respectively:
                 F11 is the number of filters in the first 1x1 convolution.
