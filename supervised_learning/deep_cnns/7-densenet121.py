@@ -70,7 +70,7 @@ def densenet121(growth_rate=32, compression=1.0):
                                 16)
 
     X = K.layers.BatchNormalization()(X)
-    X = K.layers.Activation('relu')(X)
+    X = K.layers.ReLU()(X)
     X = K.layers.GlobalAveragePooling2D()(X)
     outputs = K.layers.Dense(1000,
                              activation='softmax',
