@@ -68,14 +68,13 @@ class Yolo:
             cx = np.arange(grid_w)
             cy = np.arange(grid_h)
             cx_grid, cy_grid = np.meshgrid(cx, cy)
-            cx_grid = cx_grid[..., np.newaxis]
-            cy_grid = cy_grid[..., np.newaxis]
+            cx_grid = np.tile(cx_grid[..., np.newaxis], (1, 1, anchor_boxes))
+            cy_grid = np.tile(cy_grid[..., np.newaxis], (1, 1, anchor_boxes))
 
             bx = 1 / (1 + np.exp(-tx)) + cx_grid
             by = 1 / (1 + np.exp(-ty)) + cy_grid
-
-            bw = np.exp(tw) * anchors[:, 0]
-            bh = np.exp(th) * anchors[:, 1]
+            bw = np.exp(tw) * anchors[np.newaxis, np.newaxis, :, 0]
+            bh = np.exp(th) * anchors[np.newaxis, np.newaxis, :, 1]
 
             bx /= grid_w
             by /= grid_h
@@ -87,8 +86,7 @@ class Yolo:
             x2 = (bx + bw / 2) * image_w
             y2 = (by + bh / 2) * image_h
 
-            processed_boxes = np.stack([x1, y1, x2, y2], axis=-1)
-            boxes.append(processed_boxes)
+            boxes.append(np.stack([x1, y1, x2, y2], axis=-1))
 
             box_conf = 1 / (1 + np.exp(-output[..., 4]))
             box_conf = box_conf[..., np.newaxis]
