@@ -56,6 +56,9 @@ class Yolo:
         image_h, image_w = image_size
 
         for i, output in enumerate(outputs):
+            if output.ndim == 5 and output.shape[0] == 1:
+                output = output[0]
+
             grid_h, grid_w, anchor_boxes, _ = output.shape
             anchors = self.anchors[i]
 
