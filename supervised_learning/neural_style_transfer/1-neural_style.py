@@ -100,6 +100,6 @@ class NST:
         content_layer_output = vgg.get_layer(self.content_layer).output
         outputs.append(content_layer_output)
 
-        model = tf.keras.Model(inputs=vgg.input, outputs=outputs)
+        self.model = tf.keras.Model(inputs=vgg.input, outputs=outputs)
 
-        return model
+        return self.model
