@@ -24,9 +24,6 @@ class NST:
                 content_image (np.ndarray): the preprocessed content image.
                 alpha (float): the weight for content cost.
                 beta (float): the weight for style cost.
-
-            Return:
-                The scaled image.
         """
         if (not isinstance(style_image, np.ndarray) or
                 style_image.ndim != 3 or style_image.shape[2] != 3):
@@ -51,6 +48,13 @@ class NST:
         """
             Rescales an image such that its pixels values are between 0 and 1
             and its largest side is 512 pixels.
+
+            Args:
+                image (numpy.ndarray): A numpy.ndarray of shape (h, w, 3)
+                containing the image to be scaled.
+
+            Returns:
+                The scaled image.
         """
         if (not isinstance(image, np.ndarray) or
                 image.ndim != 3 or image.shape[2] != 3):
@@ -68,6 +72,8 @@ class NST:
         image_resized = tf.image.resize(image,
                                         (new_h, new_w),
                                         method=tf.image.ResizeMethod.BICUBIC)
+
+        image_resized = tf.clip_by_value(image_resized, 0, 255)
 
         image_rescaled = tf.cast(image_resized, tf.float32) / 255.0
 
