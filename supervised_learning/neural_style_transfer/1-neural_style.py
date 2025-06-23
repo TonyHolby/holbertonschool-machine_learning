@@ -92,14 +92,25 @@ class NST:
                                           weights='imagenet')
         vgg.trainable = False
 
-        outputs = []
+        outputs = {}
+        x = vgg.input
+
+        for layer in vgg.layers[1:]:
+            if isinstance(layer, tf.keras.layers.MaxPooling2D):
+                x = tf.keras.layers.AveragePooling2D(name=layer.name)(x)
+            else:
+                x = layer(x)
+            outputs[layer.name] = x
+
+        style_outputs = []
         for name in self.style_layers:
-            layer_output = vgg.get_layer(name).output
-            outputs.append(layer_output)
+            output = outputs[name]
+            style_outputs.append(output)
 
-        content_layer_output = vgg.get_layer(self.content_layer).output
-        outputs.append(content_layer_output)
+        content_layer_name = self.content_layer
+        content_output = outputs[content_layer_name]
 
-        self.model = tf.keras.Model(inputs=vgg.input, outputs=outputs)
+        self.model = tf.keras.Model(inputs=vgg.input,
+                                    outputs=style_outputs + [content_output])
 
         return self.model
