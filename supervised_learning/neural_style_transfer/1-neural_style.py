@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
     A class Yolo that performs tasks for neural style transfer.
 """
