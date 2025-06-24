@@ -140,5 +140,5 @@ class NST:
         compute_gram /= tf.cast(h * w, tf.float32)
 
         gram_matrix = tf.expand_dims(compute_gram, axis=0)
-    
+
         return gram_matrix
