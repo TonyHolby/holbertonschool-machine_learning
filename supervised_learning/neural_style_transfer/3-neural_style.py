@@ -148,16 +148,17 @@ class NST:
 
         imagenet_mean = tf.constant(
             [103.939, 116.779, 123.68], dtype=tf.float32)
-        imagenet_mean = tf.reshape(imagenet_mean, (1, 1, 1, 3))
+        imagenet_mean = tf.reshape(imagenet_mean, shape=(1, 1, 1, 3))
+        style_image_bgr = style_image_bgr - imagenet_mean
+        content_image_bgr = content_image_bgr - imagenet_mean
 
-        style_image_bgr -= imagenet_mean
-        content_image_bgr -= imagenet_mean
+        outputs = self.model(style_image_bgr)
+        style_outputs = outputs[:len(self.style_layers)]
 
-        style_outputs = self.model(style_image_bgr)[:len(self.style_layers)]
-        content_output = self.model(content_image_bgr)[len(self.style_layers)]
-
-        self.style_features = style_outputs
+        self.style_features = list(style_outputs)
         self.gram_style_features = \
-            [self.gram_matrix(out) for out in style_outputs]
+            [self.gram_matrix(feat) for feat in style_outputs]
 
+        content_output = self.model(
+            content_image_bgr)[len(self.style_layers)]
         self.content_feature = content_output
