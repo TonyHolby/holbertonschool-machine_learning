@@ -78,10 +78,14 @@ class NST:
 
         image_resized = tf.clip_by_value(image_resized, 0, 255)
 
-        image_rescaled = tf.cast(image_resized, tf.float32) / 255.0
+        image_rescaled = tf.cast(image_resized, tf.float32)
 
-        image_batched = tf.expand_dims(image_rescaled, axis=0)
+        image_bgr = image_rescaled[..., ::-1]
 
+        image_bgr -= tf.constant([103.939, 116.779, 123.68], shape=[1, 1, 3])
+
+        image_batched = tf.expand_dims(image_bgr, axis=0)
+        
         return image_batched
 
     def load_model(self):
@@ -137,7 +141,6 @@ class NST:
         features = tf.reshape(input_layer, shape=[-1, c])
 
         compute_gram = tf.matmul(features, features, transpose_a=True)
-        compute_gram /= tf.cast(h * w, tf.float32)
 
         gram_matrix = tf.expand_dims(compute_gram, axis=0)
 
