@@ -143,22 +143,21 @@ class NST:
         """
             Extracts the style and content features.
         """
-        style_image_bgr = self.style_image[..., ::-1]
-        content_image_bgr = self.content_image[..., ::-1]
+        style_image_bgr = tf.reverse(self.style_image, axis=[-1])
+        content_image_bgr = tf.reverse(self.content_image, axis=[-1])
 
         imagenet_mean = tf.constant(
             [103.939, 116.779, 123.68], dtype=tf.float32)
-        style_image_bgr = style_image_bgr - imagenet_mean
-        content_image_bgr = content_image_bgr - imagenet_mean
+        imagenet_mean = tf.reshape(imagenet_mean, (1, 1, 1, 3))
 
-        outputs = self.model(style_image_bgr)
-        style_outputs = outputs[:len(self.style_layers)]
+        style_image_bgr -= imagenet_mean
+        content_image_bgr -= imagenet_mean
 
-        self.style_features = []
-        self.gram_style_features = []
-        for style_output in style_outputs:
-            self.style_features.append(style_output)
-            self.gram_style_features.append(self.gram_matrix(style_output))
-
+        style_outputs = self.model(style_image_bgr)[:len(self.style_layers)]
         content_output = self.model(content_image_bgr)[len(self.style_layers)]
+
+        self.style_features = style_outputs
+        self.gram_style_features = \
+            [self.gram_matrix(out) for out in style_outputs]
+
         self.content_feature = content_output
