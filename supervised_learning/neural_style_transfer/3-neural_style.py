@@ -85,7 +85,7 @@ class NST:
         image_bgr -= tf.constant([103.939, 116.779, 123.68], shape=[1, 1, 3])
 
         image_batched = tf.expand_dims(image_bgr, axis=0)
-        
+
         return image_batched
 
     def load_model(self):
@@ -153,6 +153,7 @@ class NST:
         style_outputs = self.model(self.style_image)
         style_layers_outputs = style_outputs[:len(self.style_layers)]
 
+        self.style_features = style_layers_outputs
         self.gram_style_features = []
         for layer in style_layers_outputs:
             gram = self.gram_matrix(layer)
