@@ -72,19 +72,13 @@ class NST:
             new_w = 512
             new_h = int((h / w) * 512)
 
-        image_resized = tf.image.resize(image,
-                                        (new_h, new_w),
+        image_resized = tf.image.resize(image, (new_h, new_w),
                                         method=tf.image.ResizeMethod.BICUBIC)
 
-        image_resized = tf.clip_by_value(image_resized, 0, 255)
+        image_resized = tf.clip_by_value(image_resized, 0.0, 255.0)
+        image_resized = tf.cast(image_resized, tf.float32)
 
-        image_rescaled = tf.cast(image_resized, tf.float32)
-
-        image_bgr = image_rescaled[..., ::-1]
-
-        image_bgr -= tf.constant([103.939, 116.779, 123.68], shape=[1, 1, 3])
-
-        image_batched = tf.expand_dims(image_bgr, axis=0)
+        image_batched = tf.expand_dims(image_resized, axis=0)
 
         return image_batched
 
@@ -140,9 +134,8 @@ class NST:
         _, h, w, c = input_layer.shape
         features = tf.reshape(input_layer, shape=[-1, c])
 
-        compute_gram = tf.matmul(features, features, transpose_a=True)
-
-        gram_matrix = tf.expand_dims(compute_gram, axis=0)
+        gram_matrix = tf.matmul(features, features, transpose_a=True)
+        gram_matrix = tf.expand_dims(gram_matrix, axis=0)
 
         return gram_matrix
 
@@ -150,14 +143,22 @@ class NST:
         """
             Extracts the style and content features.
         """
-        style_outputs = self.model(self.style_image)
-        style_layers_outputs = style_outputs[:len(self.style_layers)]
+        style_image_bgr = self.style_image[..., ::-1]
+        content_image_bgr = self.content_image[..., ::-1]
 
-        self.style_features = style_layers_outputs
+        imagenet_mean = tf.constant(
+            [103.939, 116.779, 123.68], dtype=tf.float32)
+        style_image_bgr = style_image_bgr - imagenet_mean
+        content_image_bgr = content_image_bgr - imagenet_mean
+
+        outputs = self.model(style_image_bgr)
+        style_outputs = outputs[:len(self.style_layers)]
+
+        self.style_features = []
         self.gram_style_features = []
-        for layer in style_layers_outputs:
-            gram = self.gram_matrix(layer)
-            self.gram_style_features.append(gram)
+        for style_output in style_outputs:
+            self.style_features.append(style_output)
+            self.gram_style_features.append(self.gram_matrix(style_output))
 
-        content_output = self.model(self.content_image)[len(self.style_layers)]
+        content_output = self.model(content_image_bgr)[len(self.style_layers)]
         self.content_feature = content_output
