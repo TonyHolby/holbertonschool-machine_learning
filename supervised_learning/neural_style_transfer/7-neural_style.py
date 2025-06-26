@@ -252,15 +252,15 @@ class NST:
         """
             Calculates the total cost for the generated image.
 
-        Parameters:
-            generated_image (tf.Tensor): a tf.Tensor of shape (1, nh, nw, 3)
-            containing the generated image.
+            Args:
+                generated_image (tf.Tensor): a tf.Tensor of shape
+                (1, nh, nw, 3) containing the generated image.
 
-        Returns:
-            (J, J_content, J_style):
-                J is the total cost
-                J_content is the content cost
-                J_style is the style cost
+            Returns:
+                (J, J_content, J_style):
+                    J is the total cost
+                    J_content is the content cost
+                    J_style is the style cost
         """
         if not isinstance(generated_image, (tf.Tensor, tf.Variable)):
             raise TypeError(f"generated_image must be a tensor of shape \
