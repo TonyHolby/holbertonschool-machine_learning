@@ -19,10 +19,10 @@ class NST:
             Constructor for NST.
 
             Args:
-                style_image (np.ndarray): the  image used as a style reference,
-                    stored as a numpy.ndarray.
-                content_image (np.ndarray): the image used as a content
-                    reference, stored as a numpy.ndarray.
+                style_image (np.ndarray): the image used with a style reference,
+                    stored in a numpy.ndarray.
+                content_image (np.ndarray): the image used with a content
+                    reference, stored in a numpy.ndarray.
                 alpha (float): the weight for content cost.
                 beta (float): the weight for style cost.
         """
