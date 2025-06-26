@@ -19,10 +19,10 @@ class NST:
             Constructor for NST.
 
             Args:
-                style_image (np.ndarray): the image used with a style reference,
-                    stored in a numpy.ndarray.
+                style_image (np.ndarray): the image used with a style
+                    reference, stored in a np.ndarray.
                 content_image (np.ndarray): the image used with a content
-                    reference, stored in a numpy.ndarray.
+                    reference, stored in a np.ndarray.
                 alpha (float): the weight for content cost.
                 beta (float): the weight for style cost.
         """
@@ -53,7 +53,7 @@ class NST:
             and its largest side is 512 pixels.
 
             Args:
-                image (numpy.ndarray): A numpy.ndarray of shape (h, w, 3)
+                image (np.ndarray): A np.ndarray of shape (h, w, 3)
                 containing the image to be scaled.
 
             Returns:
