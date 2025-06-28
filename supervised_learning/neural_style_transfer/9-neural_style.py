@@ -78,9 +78,9 @@ class NST:
         image_resized = tf.clip_by_value(image_resized, 0.0, 255.0)
         image_resized = image_resized / 255.0
         image_resized = tf.cast(image_resized, tf.float32)
-        image_resized = tf.clip_by_value(image_resized, 0.0, 1.0)
+        image_batched = tf.expand_dims(image_resized, axis=0)
 
-        return image_resized
+        return image_batched
 
     def load_model(self):
         """
@@ -95,7 +95,8 @@ class NST:
 
         for layer in vgg.layers[1:]:
             if isinstance(layer, tf.keras.layers.MaxPooling2D):
-                x = tf.keras.layers.AveragePooling2D(name=layer.name)(x)
+                x = tf.keras.layers.AveragePooling2D(pool_size=layer.pool_size,
+                                                     name=layer.name)(x)
             else:
                 x = layer(x)
             outputs[layer.name] = x
