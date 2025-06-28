@@ -306,12 +306,27 @@ class NST:
                        beta1=0.9,
                        beta2=0.99):
         """
-        Performs style transfer with Adam optimizer and total
-        variation regularization.
+            Performs style transfer with Adam optimizer and total
+            variation regularization.
 
-        Returns:
-            best_image (np.ndarray): best generated image
-            best_cost (float): best cost
+            Args:
+                iterations (int): the number of iterations to perform gradient
+                descent over.
+                step (int): the step at which you should print information
+                about the training, including the final iteration:
+                    i is the iteration.
+                    J_total is the total cost.
+                    J_content is the content cost.
+                    J_style is the style cost.
+                    J_var is the variational cost.
+                lr (float): the learning rate for gradient descent.
+                beta1 (float): the beta1 parameter for gradient descent.
+                beta2 (float): the beta2 parameter for gradient descent.
+
+            Returns:
+                generated_image, cost:
+                    generated_image is the best generated image.
+                    cost is the best cost.
         """
         if not isinstance(iterations, int):
             raise TypeError("iterations must be an integer")
@@ -371,13 +386,14 @@ class NST:
     @staticmethod
     def variational_cost(generated_image):
         """
-            Computes the total variation loss (smoothness).
+            Calculates the variational cost for the generated image.
 
             Args:
-                generated_image (tf.Tensor): tensor of shape (1, nh, nw, 3).
+                generated_image (tf.Tensor): a tf.Tensor of shape
+                (1, nh, nw, 3) containing the generated image.
 
             Returns:
-                The variational loss.
+                The variational cost.
         """
         if not isinstance(generated_image, (tf.Tensor, tf.Variable)):
             raise TypeError(
