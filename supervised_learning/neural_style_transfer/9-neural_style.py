@@ -76,6 +76,7 @@ class NST:
                                         method=tf.image.ResizeMethod.BICUBIC)
 
         image_resized = tf.clip_by_value(image_resized, 0.0, 255.0)
+        image_resized = image_resized / 255.0
         image_resized = tf.cast(image_resized, tf.float32)
         image_batched = tf.expand_dims(image_resized, axis=0)
 
@@ -230,8 +231,8 @@ class NST:
             Calculates the content cost for the generated image.
 
             Args:
-                content_output (tf.Tensor): a tf.Tensor of the content
-                layer output for the generated image.
+                content_output (tf.Tensor): a tf.Tensor of the
+                content layer output for the generated image.
 
             Returns:
                 The content cost.
