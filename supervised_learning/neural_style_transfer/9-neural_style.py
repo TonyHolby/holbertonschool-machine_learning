@@ -78,9 +78,9 @@ class NST:
         image_resized = tf.clip_by_value(image_resized, 0.0, 255.0)
         image_resized = image_resized / 255.0
         image_resized = tf.cast(image_resized, tf.float32)
-        image_batched = tf.expand_dims(image_resized, axis=0)
+        image_resized = tf.clip_by_value(image_resized, 0.0, 1.0)
 
-        return image_batched
+        return image_resized
 
     def load_model(self):
         """
