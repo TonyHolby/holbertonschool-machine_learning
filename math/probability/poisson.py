@@ -51,19 +51,14 @@ class Poisson:
         if k < 0:
             return 0
 
+        e = 2.7182818285
+
         factorial = 1
         for i in range(1, k + 1):
             factorial *= i
 
-        exp_negative_lambtha = 1
-        current_term = 1
-        for i in range(1, 21):
-            current_term *= -self.lambtha / i
-            exp_negative_lambtha += current_term
-
-        lambtha_power_k = 1
-        for _ in range(k):
-            lambtha_power_k *= self.lambtha
+        exp_negative_lambtha = e ** (-self.lambtha)
+        lambtha_power_k = self.lambtha ** k
 
         pmf_value = (lambtha_power_k * exp_negative_lambtha) / factorial
 
