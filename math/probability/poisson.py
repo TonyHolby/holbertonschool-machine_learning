@@ -5,7 +5,7 @@
 
 
 class Poisson:
-    """ a class Poisson that represents a poisson distribution. """
+    """ A class Poisson that represents a poisson distribution. """
 
     def __init__(self, data=None, lambtha=1.):
         """
@@ -32,3 +32,39 @@ class Poisson:
                 sum += value
                 number_of_value += 1
             self.lambtha = float(sum / number_of_value)
+
+    def pmf(self, k):
+        """
+            Calculates the value of the PMF for a given number of "successes".
+
+            Args:
+                k (int): the number of "successes".
+
+            Returns:
+                The PMF value for k.
+        """
+        try:
+            k = int(k)
+        except Exception:
+            return 0
+
+        if k < 0:
+            return 0
+
+        factorial = 1
+        for i in range(1, k + 1):
+            factorial *= i
+
+        exp_negative_lambtha = 1
+        current_term = 1
+        for i in range(1, 21):
+            current_term *= -self.lambtha / i
+            exp_negative_lambtha += current_term
+
+        lambtha_power_k = 1
+        for _ in range(k):
+            lambtha_power_k *= self.lambtha
+
+        pmf_value = (lambtha_power_k * exp_negative_lambtha) / factorial
+
+        return pmf_value
