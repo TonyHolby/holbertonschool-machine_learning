@@ -39,15 +39,10 @@ class Exponential:
             Returns:
                 The PDF value for x.
         """
-        try:
-            x = int(x)
-        except Exception:
-            return 0
-
         if x < 0:
             return 0
 
         e = 2.7182818285
-        pmf_value = self.lambtha * (e ** (-self.lambtha * x))
+        pdf_value = self.lambtha * (e ** (-self.lambtha * x))
 
-        return pmf_value
+        return pdf_value
