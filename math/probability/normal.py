@@ -78,3 +78,21 @@ class Normal:
             e ** (-0.5 * ((x - self.mean) / self.stddev) ** 2))
 
         return pdf_value
+
+    def cdf(self, x):
+        """
+            Calculates the value of the CDF for a given x-value.
+
+            Args:
+                x (float): the x-value.
+
+            Returns:
+                The CDF value for x.
+        """
+        pi = 3.1415926536
+        z = self.z_score(x) / (2 ** 0.5)
+        erf = (2 / (pi ** 0.5)) * (z - ((z ** 3) / 3) + (
+            (z ** 5) / 10) - ((z ** 7) / 42) + ((z ** 9) / 216))
+        cdf_value = 0.5 * (1 + erf)
+
+        return cdf_value
