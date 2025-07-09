@@ -33,3 +33,31 @@ class Normal:
                 sum_of_squares += (x - self.mean) ** 2
             variance = sum_of_squares / len(data)
             self.stddev = float(variance ** 0.5)
+
+    def z_score(self, x):
+        """
+            Calculates the z-score of a given x-value.
+
+            Args:
+                x (float): the x-value.
+
+            Returns:
+                The z-score of x.
+        """
+        z_score = (x - self.mean) / self.stddev
+
+        return z_score
+
+    def x_value(self, z):
+        """
+            Calculates the x-value of a given z-score.
+
+            Args:
+                z (float): the z-score.
+
+            Returns:
+                The x-value of z.
+        """
+        x_value = (z * self.stddev) + self.mean
+
+        return x_value
