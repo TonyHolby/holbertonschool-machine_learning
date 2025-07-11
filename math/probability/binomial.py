@@ -49,3 +49,40 @@ class Binomial:
 
             self.n = trials
             self.p = probability_of_success
+
+    def pmf(self, k):
+        """
+            Calculates the value of the PMF for a given number of "successes".
+
+            Args:
+                k (int or float): the number of "successes".
+
+            Returns:
+                The PMF value for k.
+        """
+        try:
+            k = int(k)
+        except Exception:
+            return 0
+
+        if k < 0 or k > self.n:
+            return 0
+
+        n_factorial = 1
+        for i in range(1, self.n + 1):
+            n_factorial *= i
+
+        k_factorial = 1
+        for i in range(1, k + 1):
+            k_factorial *= i
+
+        n_choose_k = 1
+        for i in range(1, (self.n - k) + 1):
+            n_choose_k *= i
+
+        combination = n_factorial // (k_factorial * n_choose_k)
+
+        pmf_value = combination * (self.p ** k) * (
+            (1 - self.p) ** (self.n - k))
+
+        return pmf_value
