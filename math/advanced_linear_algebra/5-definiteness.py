@@ -24,7 +24,7 @@ def definiteness(matrix):
         return None
 
     try:
-        eigenvalues = np.linalg.eigvals(matrix)
+        eigenvalues = np.linalg.eigvalsh(matrix)
     except Exception:
         return None
 
