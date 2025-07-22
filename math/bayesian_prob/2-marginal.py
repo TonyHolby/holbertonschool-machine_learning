@@ -111,4 +111,4 @@ def marginal(x, n, P, Pr):
     intersection_value = intersection(x, n, P, Pr)
     marginal_probability = np.sum(intersection_value)
 
-    return marginal_probability
+    return np.float64(marginal_probability)
