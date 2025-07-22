@@ -88,4 +88,4 @@ def intersection(x, n, P, Pr):
     likelihood_value = likelihood(x, n, P)
     intersection = likelihood_value * Pr
 
-    return intersection
+    return np.float64(intersection)
