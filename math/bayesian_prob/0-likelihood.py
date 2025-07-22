@@ -55,4 +55,4 @@ def likelihood(x, n, P):
 
     likelihoods = np.array(combination_n_x * (P ** x) * ((1 - P) ** (n - x)))
 
-    return likelihoods
+    return np.float64(likelihoods)
