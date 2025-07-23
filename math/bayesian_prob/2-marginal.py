@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-    A function that calculates the intersection that a patient who takes the
-    drug will develop severe side effects, based on various hypothetical
+    A script that calculates the marginal probability that a patient who takes
+    the drug will develop severe side effects, based on various hypothetical
     probabilities.
 """
 import numpy as np
