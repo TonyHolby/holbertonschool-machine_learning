@@ -25,7 +25,7 @@ def pca(X, var=0.95):
     eigen_vectors = eigen_vectors[:, sorted_indices]
     total_variance = np.sum(eigen_values)
     cumulative_variance = np.cumsum(eigen_values) / total_variance
-    number_of_components = np.searchsorted(cumulative_variance, var) + 2
+    number_of_components = np.searchsorted(cumulative_variance, var) + 1
     W = eigen_vectors[:, :number_of_components]
 
     return W
