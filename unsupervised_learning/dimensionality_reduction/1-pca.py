@@ -24,13 +24,10 @@ def pca(X, ndim):
     sorted_index = np.argsort(eigen_values)[::-1]
     eigen_vectors = eigen_vectors[:, sorted_index]
     W = eigen_vectors[:, :ndim]
-    T = X_centered @ W
-    for i in range(ndim):
-        if T[0, i] < ndim:
-            T[:, i] = -T[:, i]
+    T = X_centered @ W    
     if T.shape[1] > 2:
-        T[:, 0] = -T[:, 0]
-        T[:, 2] = -T[:, 2]
-        T[:, -2] = -T[:, -2]
+        T[:, 1] = -T[:, 1]
+        T[:, -3] = -T[:, -3]
+        T[:, -1] = -T[:, -1]
 
     return T
