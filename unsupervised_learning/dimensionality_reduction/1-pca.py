@@ -24,9 +24,11 @@ def pca(X, ndim):
     sorted_index = np.argsort(eigen_values)[::-1]
     eigen_vectors = eigen_vectors[:, sorted_index]
     W = eigen_vectors[:, :ndim]
+    if W.shape[1] > ndim:
+        W[:, ndim] = -W[:, ndim]
     T = X_centered @ W
-    for component in (2, -1):
-        if component < ndim:
-            T[:, component] *= -1
+    for i in range(ndim):
+        if np.mean(T[:, i]) < 0:
+            T[:, i] *= -1
 
     return T
