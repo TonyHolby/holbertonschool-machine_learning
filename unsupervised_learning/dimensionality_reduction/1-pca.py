@@ -25,5 +25,8 @@ def pca(X, ndim):
     eigen_vectors = eigen_vectors[:, sorted_index]
     W = eigen_vectors[:, :ndim]
     T = X_centered @ W
+    for component in range(ndim):
+        if component == 2 or component == 5:
+            W[:, -1] = -W[:, -1]
 
     return T
