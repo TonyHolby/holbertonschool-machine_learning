@@ -53,7 +53,7 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
 
         results.append((C, clss))
         var = variance(X, C)
-        if var is None:
+        if var is None or var == 0.0:
             return None, None
 
         d_vars.append(var)
