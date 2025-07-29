@@ -36,7 +36,7 @@ def kmeans(X, k, iterations=1000):
 
     min_values = np.min(X, axis=0)
     max_values = np.max(X, axis=0)
-    C = np.random.uniform(min_values, max_values, (k, d))
+    C = np.random.uniform(min_values, max_values)
 
     for i in range(iterations):
         euclidean_distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
