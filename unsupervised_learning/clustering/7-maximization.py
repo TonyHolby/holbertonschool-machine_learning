@@ -29,7 +29,8 @@ def maximization(X, g):
         return None, None, None
 
     if not isinstance(g, np.ndarray) or len(g.shape) != 2\
-            or g.shape[1] != X.shape[0]:
+            or g.shape[1] != X.shape[0]\
+            or not np.allclose(np.sum(g, axis=0), 1):
         return None, None, None
 
     n, d = X.shape
