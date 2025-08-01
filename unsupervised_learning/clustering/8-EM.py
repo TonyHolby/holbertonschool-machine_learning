@@ -73,7 +73,7 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
 
         previous_l = log_likelihood
 
-    if verbose:
+    if verbose and iterations % 10 != 0:
         print(f"Log Likelihood after {iterations} "
               f"iterations: {log_likelihood:.5f}")
 
