@@ -55,7 +55,7 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
     if pi is None or m is None or S is None:
         return None, None, None, None, None
 
-    previous_l = 0
+    previous_l = float('-inf')
 
     for i in range(iterations):
         g, log_likelihood = expectation(X, pi, m, S)
