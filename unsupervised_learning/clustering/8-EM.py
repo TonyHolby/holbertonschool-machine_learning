@@ -52,34 +52,29 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         return None, None, None, None, None
 
     pi, m, S = initialize(X, k)
-    if pi is None or m is None or S is None:
-        return None, None, None, None, None
+    g, previous_l = expectation(X, pi, m, S)
 
-    previous_l = float('-inf')
+    if verbose:
+        print(f"Log Likelihood after 0 iterations: {previous_l:.5f}")
 
-    for i in range(iterations):
+    for i in range(1, iterations + 1):
+        pi, m, S = maximization(X, g)
         g, log_likelihood = expectation(X, pi, m, S)
-        if g is None or log_likelihood is None:
-            return None, None, None, None, None
 
         if verbose and i % 10 == 0:
             print(f"Log Likelihood after {i} iterations: {log_likelihood:.5f}")
 
-        delta = abs(log_likelihood - previous_l)
-        if delta <= tol:
+        if abs(log_likelihood - previous_l) <= tol:
             if verbose and i % 10 != 0:
                 print(f"Log Likelihood after {i} "
                       f"iterations: {log_likelihood:.5f}")
-            break
+
+            return pi, m, S, g, log_likelihood
 
         previous_l = log_likelihood
-        pi, m, S = maximization(X, g)
 
-    else:
-        if verbose and (iterations - 1) % 10 != 0:
-            print(f"Log Likelihood after {iterations} "
-                  f"iterations: {log_likelihood:.5f}")
-
-    g, log_likelihood = expectation(X, pi, m, S)
+    if verbose:
+        print(f"Log Likelihood after {iterations} "
+              f"iterations: {log_likelihood:.5f}")
 
     return pi, m, S, g, log_likelihood
