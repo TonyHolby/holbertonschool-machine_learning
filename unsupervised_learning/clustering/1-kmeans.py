@@ -41,16 +41,17 @@ def kmeans(X, k, iterations=1000):
     for i in range(iterations):
         euclidean_distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
         clss = np.argmin(euclidean_distances, axis=1)
-        previous_C = C.copy()
+        new_centroids = C.copy()
         for current_cluster in range(k):
-            if np.any(clss == current_cluster):
-                C[current_cluster] = np.mean(
-                    X[clss == current_cluster], axis=0)
+            points = X[clss == current_cluster]
+            if points.shape[0] == 0:
+                new_centroids[current_cluster] = np.random.uniform(
+                    low=np.min(X, axis=0),
+                    high=np.max(X, axis=0))
             else:
-                C[current_cluster] = np.random.uniform(
-                    min_values, max_values)
+                new_centroids[current_cluster] = np.mean(points, axis=0)
 
-        if np.allclose(C, previous_C):
+        if np.allclose(C, new_centroids):
             break
 
     return C, clss
