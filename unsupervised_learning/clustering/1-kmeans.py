@@ -41,6 +41,7 @@ def kmeans(X, k, iterations=1000):
     for _ in range(iterations):
         euclidean_distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
         clss = np.argmin(euclidean_distances, axis=1)
+
         new_centroids = np.zeros_like(C)
         for i in range(k):
             if np.any(clss == i):
@@ -52,5 +53,8 @@ def kmeans(X, k, iterations=1000):
             break
 
         C = new_centroids
+
+    euclidean_distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
+    clss = np.argmin(euclidean_distances, axis=1)
 
     return C, clss
