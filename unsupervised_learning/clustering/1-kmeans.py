@@ -8,7 +8,7 @@ def kmeans(X, k, iterations=1000):
         Performs K-means on a dataset.
 
         Args:
-            X is (np.ndarray): numpy.ndarray of shape (n, d) containing the
+            X (np.ndarray): numpy.ndarray of shape (n, d) containing the
             dataset that will be used for K-means clustering:
                 n is the number of data points.
                 d is the number of dimensions for each data point.
@@ -38,20 +38,19 @@ def kmeans(X, k, iterations=1000):
     max_values = np.max(X, axis=0)
     C = np.random.uniform(min_values, max_values, (k, d))
 
-    for i in range(iterations):
+    for _ in range(iterations):
         euclidean_distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
         clss = np.argmin(euclidean_distances, axis=1)
-        new_centroids = C.copy()
-        for current_cluster in range(k):
-            points = X[clss == current_cluster]
-            if points.shape[0] == 0:
-                new_centroids[current_cluster] = np.random.uniform(
-                    low=np.min(X, axis=0),
-                    high=np.max(X, axis=0))
+        new_centroids = np.zeros_like(C)
+        for i in range(k):
+            if np.any(clss == i):
+                new_centroids[i] = np.mean(X[clss == i], axis=0)
             else:
-                new_centroids[current_cluster] = np.mean(points, axis=0)
+                new_centroids[i] = np.random.uniform(min_values, max_values)
 
         if np.allclose(C, new_centroids):
             break
+
+        C = new_centroids
 
     return C, clss
