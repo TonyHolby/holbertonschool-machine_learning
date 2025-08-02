@@ -89,6 +89,9 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
 
     l_values = np.array(l_values)
     bics = np.array(bics)
+    if len(bics) == 0:
+        return None, None, None, None
+
     best_index = np.argmin(bics)
     best_k = ks[best_index]
     best_result = results[best_index]
