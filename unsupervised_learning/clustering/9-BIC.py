@@ -79,7 +79,7 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
                 or S is None\
                 or g is None\
                 or log_likelihood is None:
-            return None, None, None, None
+            continue
 
         p = (k - 1) + (k * d) + (k * d * (d + 1) / 2)
         bic = p * np.log(n) - 2 * log_likelihood
