@@ -32,51 +32,48 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
         T = Observations.shape[0]
         M, N = Emission.shape
 
+        if Transition.shape != (M, M) or Initial.shape != (M, 1):
+            return None, None
+
         for _ in range(iterations):
             alpha = np.zeros((M, T))
+            beta = np.zeros((M, T))
+
             alpha[:, 0] = Initial[:, 0] * Emission[:, Observations[0]]
             for t in range(1, T):
                 for j in range(M):
-                    alpha[j, t] = np.sum(alpha[:, t - 1] * Transition[:, j])\
+                    alpha[j, t] = np.sum(alpha[:, t-1] * Transition[:, j])\
                         * Emission[j, Observations[t]]
 
-            beta = np.zeros((M, T))
             beta[:, -1] = 1
-            for t in range(T - 2, -1, -1):
+            for t in range(T-2, -1, -1):
                 for i in range(M):
                     beta[i, t] = np.sum(Transition[i, :]
-                                        * Emission[:, Observations[t + 1]]
-                                        * beta[:, t + 1])
+                                        * Emission[:, Observations[t+1]]
+                                        * beta[:, t+1])
 
-            xi = np.zeros((M, M, T - 1))
-            for t in range(T - 1):
-                denominator = np.sum(alpha[:, t]
-                                     * (Transition
-                                        @ (Emission[:, Observations[t+1]]
-                                           * beta[:, t+1])))
-
+            xi = np.zeros((M, M, T-1))
+            for t in range(T-1):
+                denominator = np.sum(alpha[:, t] * beta[:, t])
                 for i in range(M):
                     numerator = alpha[i, t]\
                         * Transition[i, :]\
-                        * Emission[:, Observations[t + 1]] * beta[:, t + 1]
-                    if denominator != 0:
-                        xi[i, :, t] = numerator / denominator
-                    else:
-                        xi[i, :, t] = 0
+                        * Emission[:, Observations[t+1]]\
+                        * beta[:, t+1]
+                    xi[i, :, t] = numerator / denominator
 
             gamma = np.sum(xi, axis=1)
             last_gamma = (alpha[:, -1] * beta[:, -1])\
                 / np.sum(alpha[:, -1] * beta[:, -1])
-            gamma = np.hstack((gamma, last_gamma.reshape(-1, 1)))
+            gamma = np.hstack((gamma, last_gamma[:, None]))
 
-            Initial = gamma[:, 0].reshape(-1, 1)
             Transition = np.sum(xi, axis=2)\
-                / np.sum(gamma[:, :-1], axis=1, keepdims=True)
+                / np.sum(gamma[:, :-1], axis=1)[:, None]
 
             for k in range(N):
                 mask = (Observations == k)
-                Emission[:, k] = np.sum(gamma[:, mask], axis=1)
-            Emission /= np.sum(gamma, axis=1, keepdims=True)
+                Emission[:, k] = np.sum(gamma[:, mask], axis=1)\
+                    / np.sum(gamma, axis=1)
 
         return Transition, Emission
 
