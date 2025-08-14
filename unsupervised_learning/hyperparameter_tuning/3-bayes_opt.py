@@ -18,7 +18,7 @@ class BayesianOptimization:
             Initializes Bayesian Optimization
 
             Args:
-                f (): the black-box function to be optimized.
+                f (float): the black-box function to be optimized.
                 X_init (np.ndarray): a numpy.ndarray of shape (t, 1)
                     representing the inputs already sampled with the black-box
                     function.
