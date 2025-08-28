@@ -19,7 +19,7 @@ def convolutional_GenDiscr():
     def generator():
         """
             Builds the generator network using tanh activation.
-            
+
             Returns:
                 generator (keras.Model): the generator model.
         """
@@ -39,7 +39,7 @@ def convolutional_GenDiscr():
     def discriminator():
         """
             Builds the discriminator network using tanh activation.
-            
+
             Returns:
                 discriminator (keras.Model): the discriminator model.
         """
