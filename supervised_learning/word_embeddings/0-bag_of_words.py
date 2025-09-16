@@ -34,9 +34,10 @@ def bag_of_words(sentences, vocab=None):
         tokenized_sentences.append(tokens)
 
     if vocab is None:
-        vocab = sorted(set(word
-                           for tokens in tokenized_sentences
-                           for word in tokens))
+        vocab_list = sorted(set(word
+                                for tokens in tokenized_sentences
+                                for word in tokens))
+        vocab = np.array(vocab_list)
     else:
         vocab = sorted(set(vocab))
 
