@@ -39,7 +39,7 @@ def bag_of_words(sentences, vocab=None):
                                 for word in tokens))
         vocab = np.array(vocab_list)
     else:
-        vocab = sorted(set(vocab))
+        vocab = set(vocab)
 
     features = vocab
     f = len(features)
