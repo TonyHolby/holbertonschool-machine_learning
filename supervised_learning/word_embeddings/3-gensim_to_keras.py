@@ -20,8 +20,8 @@ def gensim_to_keras(model):
     weights = model.wv.vectors
 
     embedding_layer = tf.keras.layers.Embedding(input_dim=vocab_size,
-                                                        output_dim=vector_size,
-                                                        weights=[weights],
-                                                        trainable=True)
+                                                output_dim=vector_size,
+                                                weights=[weights],
+                                                trainable=True)
 
     return embedding_layer
