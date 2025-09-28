@@ -12,7 +12,6 @@ class RNNDecoder(tf.keras.layers.Layer):
         A class RNNDecoder that inherits from tensorflow.keras.layers.Layer
         to decode for machine translation.
     """
-
     def __init__(self, vocab, embedding, units, batch):
         """
             Initializes the RNNDecoder.
@@ -29,14 +28,16 @@ class RNNDecoder(tf.keras.layers.Layer):
         super(RNNDecoder, self).__init__()
         self.embedding = tf.keras.layers.Embedding(input_dim=vocab,
                                                    output_dim=embedding)
-
         self.attention = SelfAttention(units)
         self.gru = tf.keras.layers.GRU(units=units,
                                        return_sequences=True,
                                        return_state=True,
-                                       recurrent_initializer="glorot_uniform")
-
-        self.F = tf.keras.layers.Dense(vocab)
+                                       kernel_initializer="glorot_uniform",
+                                       recurrent_initializer="glorot_uniform",
+                                       bias_initializer="zeros")
+        self.F = tf.keras.layers.Dense(vocab,
+                                       kernel_initializer="glorot_uniform",
+                                       bias_initializer="zeros")
 
     def call(self, x, s_prev, hidden_states):
         """
