@@ -4,6 +4,7 @@
     for machine translation.
 """
 import tensorflow_datasets as tfds
+import transformers
 
 
 class Dataset:
