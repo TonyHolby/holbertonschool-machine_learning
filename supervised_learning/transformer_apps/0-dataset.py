@@ -38,8 +38,6 @@ class Dataset:
                     tokenizer_pt is the Portuguese tokenizer.
                     tokenizer_en is the English tokenizer.
         """
-        vocab_size = 2 ** 13
-
         def pt_generator():
             """
                 Generates utf-8 sentences in Potuguese.
@@ -54,11 +52,16 @@ class Dataset:
             for _, en in tfds.as_numpy(data):
                 yield en.decode('utf-8')
 
-        tokenizer_pt =\
-            tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
-                pt_generator(), target_vocab_size=vocab_size)
-        tokenizer_en =\
-            tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
-                en_generator(), target_vocab_size=vocab_size)
+        tokenizer_pt = transformers.AutoTokenizer.from_pretrained(
+            "neuralmind/bert-base-portuguese-cased")
+        tokenizer_en = transformers.AutoTokenizer.from_pretrained(
+            "bert-base-uncased")
+
+        vocab_size = 2 ** 13
+
+        tokenizer_pt = tokenizer_pt.train_new_from_iterator(
+            pt_generator(), vocab_size=vocab_size)
+        tokenizer_en = tokenizer_en.train_new_from_iterator(
+            en_generator(), vocab_size=vocab_size)
 
         return tokenizer_pt, tokenizer_en
