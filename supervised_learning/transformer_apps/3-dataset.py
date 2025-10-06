@@ -25,77 +25,86 @@ class Dataset:
         """
         self.batch_size = batch_size
         self.max_len = max_len
+        self.vocab_limit = 2 ** 13
 
         data = tfds.load("ted_hrlr_translate/pt_to_en", as_supervised=True)
-        train_raw = data['train']
-        valid_raw = data['validation']
+        raw_train = data["train"]
+        raw_valid = data["validation"]
 
-        self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(train_raw)
+        self.tokenizer_pt, self.tokenizer_en =\
+            self.create_tokenizers(raw_train)
 
-        train_encoded = train_raw.map(self.tf_encode,
+        self.vocab_size_pt =\
+            min(self.get_vocab_size(self.tokenizer_pt), self.vocab_limit)
+        self.vocab_size_en =\
+            min(self.get_vocab_size(self.tokenizer_en), self.vocab_limit)
+
+        self.input_vocab = len(self.tokenizer_pt.get_vocab()) + 2
+        self.target_vocab = len(self.tokenizer_en.get_vocab()) + 2
+
+        train_encoded = raw_train.map(self.tf_encode,
                                       num_parallel_calls=tf.data.AUTOTUNE)
-        valid_encoded = valid_raw.map(self.tf_encode,
+        valid_encoded = raw_valid.map(self.tf_encode,
                                       num_parallel_calls=tf.data.AUTOTUNE)
 
-        self.data_train = (train_encoded
-                           .filter(lambda pt, en:
-                                   tf.logical_and(tf.size(pt) <= max_len,
+        self.data_train = (
+            train_encoded
+            .filter(lambda pt, en: tf.logical_and(tf.size(pt) <= max_len,
                                                   tf.size(en) <= max_len))
-                           .cache()
-                           .shuffle(20000)
-                           .padded_batch(batch_size,
-                                         padded_shapes=([None], [None]))
-                           .prefetch(tf.data.AUTOTUNE))
+            .cache()
+            .shuffle(20000)
+            .padded_batch(
+                batch_size,
+                padded_shapes=([None], [None]),
+                padding_values=(tf.constant(0, dtype=tf.int64),
+                                tf.constant(0, dtype=tf.int64)))
+            .prefetch(tf.data.AUTOTUNE))
 
-        self.data_valid = (valid_encoded
-                           .filter(lambda pt, en:
-                                   tf.logical_and(tf.size(pt) <= max_len,
+        self.data_valid = (
+            valid_encoded
+            .filter(lambda pt, en: tf.logical_and(tf.size(pt) <= max_len,
                                                   tf.size(en) <= max_len))
-                           .padded_batch(batch_size,
-                                         padded_shapes=([None], [None])))
+            .padded_batch(
+                batch_size,
+                padded_shapes=([None], [None]),
+                padding_values=(tf.constant(0, dtype=tf.int64),
+                                tf.constant(0, dtype=tf.int64))))
 
-    def tokenize_dataset(self, data):
+    def get_vocab_size(self, tokenizer):
         """
-            Creates subword tokenizers for the dataset.
+            Retrieves the vocabulary size from a tokenizer.
 
             Args:
-                data (tf.data.Dataset): a tf.data.Dataset whose examples are
-                formatted as a tuple (pt, en):
-                    pt is the tf.Tensor containing the Portuguese sentence.
-                    en is the tf.Tensor containing the corresponding English
-                    sentence.
+                tokenizer (Tokenizer): a tokenizer object that exposes either
+                    a "vocab_size" attribute or a "get_vocab" method.
+
+            Returns:
+                The size of the tokenizer's vocabulary.
+        """
+        if hasattr(tokenizer, "vocab_size"):
+            return tokenizer.vocab_size
+        elif hasattr(tokenizer, "get_vocab"):
+            return len(tokenizer.get_vocab())
+        else:
+            raise ValueError("Tokenizer does not expose a vocab size.")
+
+    def create_tokenizers(self, data):
+        """
+            Creates the Portuguese and English tokenizers used for the dataset.
+
+            Args:
+                data (tf.data.Dataset): the training dataset containing
+                    sentence pairs.
 
             Returns:
                 tokenizer_pt, tokenizer_en:
-                    tokenizer_pt is the Portuguese tokenizer.
-                    tokenizer_en is the English tokenizer.
+                    tokenizer_pt: the tokenizer for Portuguese.
+                    tokenizer_en: the tokenizer for English.
         """
-        def pt_generator():
-            """
-                Generates utf-8 sentences in Potuguese.
-            """
-            for pt, _ in tfds.as_numpy(data):
-                yield pt.decode('utf-8')
-
-        def en_generator():
-            """
-                Generates utf-8 sentences in English.
-            """
-            for _, en in tfds.as_numpy(data):
-                yield en.decode('utf-8')
-
         tokenizer_pt = transformers.AutoTokenizer.from_pretrained(
             "neuralmind/bert-base-portuguese-cased")
-        tokenizer_en = transformers.AutoTokenizer.from_pretrained(
-            "bert-base-uncased")
-
-        vocab_size = 2 ** 13
-
-        tokenizer_pt = tokenizer_pt.train_new_from_iterator(
-            pt_generator(), vocab_size=vocab_size)
-        tokenizer_en = tokenizer_en.train_new_from_iterator(
-            en_generator(), vocab_size=vocab_size)
-
+        tokenizer_en =\
+            transformers.AutoTokenizer.from_pretrained("bert-base-uncased")
         return tokenizer_pt, tokenizer_en
 
     def encode(self, pt, en):
