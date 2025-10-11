@@ -8,13 +8,12 @@ import tensorflow as tf
 import tensorflow_hub as hub
 from transformers import BertTokenizer
 
-
 qa_model = hub.load("https://tfhub.dev/see--/bert-uncased-tf2-qa/1")
 tokenizer = BertTokenizer.from_pretrained(
     "bert-large-uncased-whole-word-masking-finetuned-squad")
 
 
-def question_answer(question: str, reference: str):
+def question_answer(question, reference):
     """
         Finds a snippet of text within a reference document to answer a
         question.
