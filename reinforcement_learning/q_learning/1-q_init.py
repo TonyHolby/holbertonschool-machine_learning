@@ -15,8 +15,8 @@ def q_init(env):
         Returns:
             The Q-table as a numpy.ndarray of zeros.
     """
-    number_of_states = env.observation_space.n
-    number_of_actions = env.action_space.n
-    Q = np.zeros((number_of_states, number_of_actions))
+    states_space = env.observation_space.n
+    actions_space = env.action_space.n
+    Q = np.zeros((states_space, actions_space))
 
     return Q
