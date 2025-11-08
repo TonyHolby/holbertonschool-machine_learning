@@ -29,6 +29,7 @@ def monte_carlo(env, V, policy, episodes=5000, max_steps=100,
         episode = []
         step_count = 0
         done = False
+
         while not done and step_count < max_steps:
             action = policy(state)
             next_state, reward, terminated, truncated, info = env.step(action)
@@ -36,6 +37,11 @@ def monte_carlo(env, V, policy, episodes=5000, max_steps=100,
             state = next_state
             step_count += 1
             done = terminated or truncated
+
+        has_terminal_reward = any(reward != 0 for _, reward in episode)
+
+        if not has_terminal_reward:
+            continue
 
         G = 0
         for state, reward in reversed(episode):
