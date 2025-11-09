@@ -51,12 +51,12 @@ def sarsa_lambtha(env, Q, lambtha, episodes=5000, max_steps=100, alpha=0.1,
             else:
                 next_action = np.argmax(Q[next_state])
 
-            td_target = reward +\
-                gamma * Q[next_state, next_action] * (not done)
-            delta = td_target - Q[state, action]
-            E[state, action] += 1
-            Q += alpha * delta * E
-            E *= gamma * lambtha
+            delta = reward\
+                + gamma * Q[next_state, next_action] * (not done)\
+                - Q[state, action]
+            E[state, action] = E[state, action] + 1
+            Q = Q + alpha * delta * E
+            E = E * gamma * lambtha
             state, action = next_state, next_action
 
             if done:
