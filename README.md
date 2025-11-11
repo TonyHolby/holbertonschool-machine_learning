@@ -1,6 +1,67 @@
-Linear Algebra Project
+# Machine Learning
 
-The first project of the specialization ML.
+![Image_README_holbertonschool-machine_learning](image-readme-ml.jpg)
 
-Directories :
-- math/linear_algebra
+## 🎯 Description
+
+This repository represents all the concepts explored during the Machine Learning specialization at Holberton School. It covers the essential mathematical foundations such as linear algebra, calculus, statistical and probability which provide the theoretical basis for understanding how machine learning algorithms work. Building upon these fundamentals, the repository explores key areas of supervised learning, including neural networks, convolutional and recurrent architectures, transfer learning, optimization and natural language processing. It also delves into unsupervised learning techniques like clustering, dimensionality reduction, autoencoders and generative models such as GANs. Finally, the reinforcement learning is explored.
+
+## 📁 Clone the repository
+
+git clone https://github.com/TonyHolby/holbertonschool-machine_learning.git
+
+## 📄 Structure
+
+<pre>holbertonschool-machine_learning/
+│
+├── 📂 math/
+│   ├── 📂 advanced_linear_algebra/
+│   ├── 📂 bayesian_prob/
+│   ├── 📂 calculus/
+│   ├── 📂 convolutions_and_pooling/
+│   ├── 📂 linear_algebra/
+│   ├── 📂 multivariate_prob/
+│   ├── 📂 plotting/
+│   └── 📂 probability/
+│
+├── 📂 reinforcement_learning/
+│   ├── 📂 deep_q_learning/
+│   ├── 📂 q_learning/
+│   ├── 📂 temporal_difference/
+│   └── 📄 README.md
+│
+├── 📂 supervised_learning/
+│   ├── 📂 RNNs/
+│   ├── 📂 attention/
+│   ├── 📂 classification/
+│   ├── 📂 cnn/
+│   ├── 📂 decision_tree/
+│   ├── 📂 deep_cnns/
+│   ├── 📂 error_analysis/
+│   ├── 📂 keras/
+│   ├── 📂 neural_style_transfer/
+│   ├── 📂 nlp_metrics/
+│   ├── 📂 object_detection/
+│   ├── 📂 optimization/
+│   ├── 📂 qa_bot/
+│   ├── 📂 regularization/
+│   ├── 📂 time_series/
+│   ├── 📂 transfer_learning/
+│   ├── 📂 transformer_apps/
+│   ├── 📂 word_embeddings/
+│   └── 📄 README.md
+│
+├── 📂 unsupervised_learning/
+│   ├── 📂 autoencoders/
+│   ├── 📂 clustering/
+│   ├── 📂 dimensionality_reduction/
+│   ├── 📂 gan/
+│   ├── 📂 hmm/
+│   ├── 📂 hyperparameter_tuning/
+│   └── 📄 README.md
+│
+└── 📄 README.md</pre>
+
+## 👤 Author
+
+Tony NEMOUTHE
