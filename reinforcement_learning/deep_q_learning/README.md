@@ -14,8 +14,8 @@ Libraries used: numpy, pillow, tensorflow, keras, keras-rl2, gymnasium, matplotl
 
 ## 📁 Clone the repository
 
-git clone https://github.com/TonyHolby/holbertonschool-machine_learning/tree/main/reinforcement_learning/deep_q_learning.git  
-cd deep_q_learning/
+git clone https://github.com/TonyHolby/holbertonschool-machine_learning.git  
+cd reinforcement_learning/deep_q_learning/
 
 ## 📄 Structure
 
@@ -28,18 +28,17 @@ cd deep_q_learning/
 
 1. Training the DQN agent:
 
-Run the script: python train.py
-
+Run the script: python train.py  
 Output: the model weights will be saved as policy.h5
 
 2. Playing with the trained agent:
 
-Run the script: python play.py
-
+Run the script: python play.py  
 Output: the visualization of the DQN agent playing Breakout
 
 ## 💡 Reference
-Mnih et al. Playing Atari with Deep Reinforcement Learning, December 2013
+
+- Mnih, V. et al. (2013). *Playing Atari with Deep Reinforcement Learning.* arXiv:1312.5602.
 
 ## 👤 Author
 
