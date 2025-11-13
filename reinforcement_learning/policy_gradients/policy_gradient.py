@@ -22,3 +22,27 @@ def policy(matrix, weight):
         np.exp(scores), axis=1, keepdims=True)
 
     return probabilities
+
+
+def policy_gradient(state, weight):
+    """
+        Computes the Monte-Carlo policy gradient based on a state and weight
+        matrix.
+
+        Args:
+            state (np.ndarray): matrix representing the current observation of
+                the environment.
+            weight (np.ndarray): matrix of random weight.
+
+        Returns:
+            The action and the gradient (in this order).
+    """
+    state = state.reshape(1, -1)
+    action_probabilities = policy(state, weight)
+    action = np.random.choice(
+        len(action_probabilities[0]), p=action_probabilities[0])
+    indicator = np.zeros_like(action_probabilities)
+    indicator[0, action] = 1
+    gradient = state.T.dot(indicator - action_probabilities)
+
+    return action, gradient
