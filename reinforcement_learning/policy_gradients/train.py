@@ -66,7 +66,6 @@ def train(env, nb_episodes, alpha=0.000045, gamma=0.98, show_result=True):
             weight += alpha * episode_gradients[t] * discounted_rewards[t]
 
         print(f"Episode: {episode} Score: {score}")
-
         state, _ = env.reset()
 
         if show_result and episode % 1000 == 0:
