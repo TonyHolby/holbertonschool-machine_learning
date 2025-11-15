@@ -65,3 +65,7 @@ def train(env, nb_episodes, alpha=0.0045, gamma=0.999):
         print(f"Episode: {episode} Score: {score}")
 
     return scores
+
+
+if __name__ == "__main__":
+    train()
