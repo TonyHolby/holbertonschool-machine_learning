@@ -27,16 +27,16 @@ def first_launch():
     """
     launches_url = "https://api.spacexdata.com/v4/launches"
     launches = requests.get(launches_url).json()
+    launches = [launch for launch in launches if launch.get("upcoming")]
+    launches = [launch for launch in launches
+                if isinstance(launch.get("date_local"), str)]
     launches.sort(key=lambda launch: launch.get("date_unix", float('inf')))
 
     first = launches[0]
-    launch_name = first.get("name")
-    date_unix = first.get("date_unix")
-    rocket_id = first.get("rocket")
-    launchpad_id = first.get("launchpad")
-
-    date_local = datetime.fromtimestamp(
-        date_unix).strftime("%Y-%m-%d %H:%M:%S")
+    launch_name = first["name"]
+    date_local = first["date_local"]
+    rocket_id = first["rocket"]
+    launchpad_id = first["launchpad"]
 
     rocket_url = f"https://api.spacexdata.com/v4/rockets/{rocket_id}"
     rocket_data = requests.get(rocket_url).json()
@@ -51,5 +51,5 @@ def first_launch():
           f"({launchpad_locality})")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     first_launch()
