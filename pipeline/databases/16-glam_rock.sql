@@ -2,7 +2,7 @@
 -- as their main style, ranked by their longevity.
 SELECT
     band_name,
-    (IFNULL(split, 2020) - formed) AS `lifespan until 2020`
+    (IFNULL(split, 2020) - formed) AS 'lifespan'
 FROM metal_bands
 WHERE style LIKE '%Glam rock%'
-ORDER BY `lifespan until 2020` DESC;
+ORDER BY 'lifespan' DESC;
