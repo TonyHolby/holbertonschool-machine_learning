@@ -1,12 +1,31 @@
-# probability
+# Probability
 
----
+## 🎯 Description
 
-Tasks:
-Task 0 - Initialize Poisson
-Task 1 - Poisson PMF
-Task 2 - Poisson CDF
-Task 3 - Initialize Exponential
-Task 4 - Exponential PDF
-Task 5 - Exponential CDF
-Task 6 - Initialize Normal
+This project implements fundamental probability distributions and their properties, including Poisson, Exponential, and Normal distributions. It covers probability mass functions (PMF), probability density functions (PDF), and cumulative distribution functions (CDF).
+
+## ⚙️ Technologies
+
+python3 (version 3.9)
+
+## 📁 Clone the repository
+
+```
+git clone https://github.com/TonyHolby/holbertonschool-machine_learning.git
+cd math/probability/
+```
+
+## 📄 Structure
+
+```
+📂 probability/
+├── 📄 poisson.py               # Poisson distribution implementation
+├── 📄 exponential.py           # Exponential distribution implementation
+├── 📄 normal.py                # Normal distribution implementation
+├── 📄 binomial.py              # Binomial distribution implementation
+└── 📄 README.md                # Project documentation
+```
+
+## 👤 Author
+
+Tony NEMOUTHE
