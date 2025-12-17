@@ -10,7 +10,7 @@ This directory contains projects and implementations related to unsupervised lea
 
 python3 (version 3.9)  
 numpy (version 1.25.2)  
-tensorflow (version 2.15)
+tensorflow (version 2.15)  
 matplotlib (version 3.8.3)  
 sklearn (version 1.5.0)  
 scipy (version 1.11.4)

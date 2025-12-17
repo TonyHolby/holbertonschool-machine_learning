@@ -4,7 +4,7 @@
 
 ## 🎯 Description
 
-This project implements various autoencoder architectures for unsupervised learning and dimensionality reduction. It includes vanilla autoencoders, sparse autoencoders, convolutional autoencoders and variational autoencoders (VAEs) The keras module was used to create, compile and train these neural networks. Autoencoders are used for feature learning, data compression and generative modeling.
+This project implements various autoencoder architectures for unsupervised learning and dimensionality reduction. It includes vanilla autoencoders, sparse autoencoders, convolutional autoencoders and variational autoencoders (VAEs). The keras module was used to create, compile and train these neural networks. Autoencoders are used for feature learning, data compression and generative modeling.
 
 ## ⚙️ Technologies
 
