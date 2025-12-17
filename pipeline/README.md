@@ -4,7 +4,7 @@
 
 ## 🎯 Description
 
-This repository shows several projects demonstrating data pipelines, from data collection and augmentation (image transformations and public APIs) to data cleaning, analysis and visualization using Python and pandas. It also covers data storage and processing with MySQL and MongoDB, including advanced queries and log analysis.
+This repository shows several projects demonstrating data pipelines from data collection and augmentation (image transformations and public APIs) to data cleaning, analysis and visualization using Python and pandas. It also covers data storage and processing with MySQL and MongoDB including advanced queries and log analysis.
 
 ## ⚙️ Technologies
 
@@ -16,6 +16,7 @@ requests (version 2.32.4)
 MySQL 8.0 (version 8.0.39)  
 MongoDB (version 4.4.29)  
 PyMongo (version 4.6.2)
+tensorflow (version 2.15.0)
 
 ## 📁 Clone the repository
 
@@ -29,8 +30,9 @@ cd pipeline/
 ```
 📂 pipeline/
 ├── 📂 apis/                    # Public API consumption scripts
-├── 📂 pandas/                  # Data manipulation with pandas
+├── 📂 data_augmentation/       # Data augmentation techniques for images
 ├── 📂 databases/               # MySQL and MongoDB databases operations
+├── 📂 pandas/                  # Data manipulation with pandas
 └── 📄 README.md                # Project documentation
 ```
 
