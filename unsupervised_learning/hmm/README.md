@@ -1,13 +1,37 @@
 # Hidden Markov Models
 
----
+![Hidden Markov Models image](hmm_image.png)
 
-Tasks:
+## 🎯 Description
 
-Task 0 - Markov Chain
-Task 1 - Regular Chains
-Task 2 - Absorbing Chains
-Task 3 - The Forward Algorithm
-Task 4 - The Viretbi Algorithm
-Task 5 - The Backward Algorithm
-Task 6 - The Baum-Welch Algorithm
+This project implements Hidden Markov Models (HMMs) and related algorithms for sequence modeling and probabilistic inference. It includes Markov chains, regular and absorbing chains, forward algorithm, Viterbi algorithm, backward algorithm and the Baum-Welch algorithm for parameter estimation.
+
+## ⚙️ Technologies
+
+python3 (version 3.9)  
+numpy (version 1.25.2)
+
+## 📁 Clone the repository
+
+```
+git clone https://github.com/TonyHolby/holbertonschool-machine_learning.git
+cd unsupervised_learning/hmm/
+```
+
+## 📄 Structure
+
+```
+📂 hmm/
+├── 📄 0-markov_chain.py        # Markov chain
+├── 📄 1-regular.py             # Regular chains
+├── 📄 2-absorbing.py           # Absorbing chains
+├── 📄 3-forward.py             # Forward algorithm
+├── 📄 4-viterbi.py             # Viterbi algorithm
+├── 📄 5-backward.py            # Backward algorithm
+├── 📄 6-baum_welch.py          # Baum-Welch algorithm
+└── 📄 README.md                # Project documentation
+```
+
+## 👤 Author
+
+Tony NEMOUTHE
